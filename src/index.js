@@ -6,9 +6,10 @@ const flash=require('connect-flash');
 const session =    require('express-session');
 const mysqlStore=    require('express-mysql-session');
 const {database,errorpage} =    require('./keys');
-/* const passport =    require('passport'); */
+const passport =    require('passport');
 //Initizations
 const app =    express();
+require('./lib/passport');
 //Settings
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname,'views'));
@@ -20,11 +21,18 @@ app.engine('.hbs',expresshbs({
     helpers:require('./lib/handlebars')
 }));
 app.set('view engine','.hbs');
-
+//Middlewares -> Se ejecuta en cada peticion al servidor
+app.use(session({
+    secret:'fatzmysqlnodesession',
+    resave:false,
+    saveUninitialized:false,
+    store: new mysqlStore(database)
+}));
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-
+app.use(passport.initialize());
+app.use(passport.session());
 //Global Variables
 app.use((req, res, next)=>{
 /*     app.locals.success = req.flash('success');

@@ -21,13 +21,18 @@
         <span class="bar-login"></span>
         <label><i class="zmdi zmdi-lock"></i> &nbsp; Contraseña</label>
       </div>
+      <select name="usuario" id="usuario_id" class="form-control login">
+            <option value='0'>------Selecione una opción------</option>
+            {{#each users}}
+            <option value='{{usuarioId}}'>{{nombre}}</option>
+             {{/each}}
+        </select>
       <div class="group-material">
           <select class="material-control-login">
               <option value="" disabled="" selected="">Tipo de usuario</option>
-              <option value="Student">Estudiante</option>
-              <option value="Teacher">Docente</option>
-              <option value="Personal">Personal administrativo</option>
-              <option value="Admin">Administrador</option>
+              {{#each perfiles}}
+                <option value='{{perfilId}}'>{{nombre}}</option>
+              {{/each}}
           </select>
       </div>
       <button class="btn-login" type="submit">Ingresar al sistema &nbsp; <i class="zmdi zmdi-arrow-right"></i></button>

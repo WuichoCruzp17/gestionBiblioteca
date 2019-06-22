@@ -4,7 +4,7 @@ let administrador ={};
 administrador.table= {name:'ADMINISTRADOR'}
 
 administrador.columns ={
-    catalagoId:{
+    administradorId:{
         column:'ADMINISTRADOR_ID',
         primaryKey:true
     },
@@ -13,8 +13,8 @@ administrador.columns ={
         column:'NOMBRE'
     },
 
-    perfilAccessoId:{
-        column:'PEFIL_ACCESO_ID'
+    perfilId:{
+        column:'PERFIL_ID'
     },
 
     apellidoPaterno:{
@@ -24,6 +24,9 @@ administrador.columns ={
     apellidoMaterno:{
         column:'APELLIDO_MATERNO'
     },  
+    correo:{
+        column:'CORREO'
+    },
     constrasena:{
         column:'CONSTRASENA'
     },

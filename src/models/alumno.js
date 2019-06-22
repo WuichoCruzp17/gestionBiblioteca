@@ -8,7 +8,12 @@ alumno.columns ={
         column:'ALUMNO_ID',
         primaryKey:true
     },
-
+    perfilId:{
+        column:'PERFIL_ID'
+    },
+    matricula:{
+        column:'MATRICULA'
+    },
     nombre:{
         column:'NOMBRE'
     },

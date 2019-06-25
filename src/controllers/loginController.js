@@ -10,7 +10,6 @@ loginController.login =async (req, res)=> {
 
 loginController.getUser = async(login)=>{
     var rows = null;
-    console.log("Admin :>",login);
     switch(login.userId){
         case 1:
             console.log("Admministrador");
@@ -21,8 +20,6 @@ loginController.getUser = async(login)=>{
 };
 
 loginController.validateSession =async(req, res, next)=>{
-    console.log("Validade Session");
-    console.log(req.body);
   await passport.authenticate('local.signin',{
     successRedirect:'/biblioteca/index',
     failureRedirect:'/'

@@ -27,7 +27,7 @@ administrador.columns ={
     correo:{
         column:'CORREO'
     },
-    constrasena:{
+    contrasena:{
         column:'CONSTRASENA'
     },
     estatusId:{

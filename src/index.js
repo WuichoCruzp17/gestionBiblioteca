@@ -28,6 +28,7 @@ app.use(session({
     saveUninitialized:false,
     store: new mysqlStore(database)
 }));
+app.use(flash());//Enviar mensajes
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
@@ -35,13 +36,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 //Global Variables
 app.use((req, res, next)=>{
-/*     app.locals.success = req.flash('success');
-    app.locals.message = req.flash('message'); */
+    app.locals.success = req.flash('success');
+    app.locals.message = req.flash('message');
     app.locals.user    =req.user;
     next();
 });
 //Routes
 app.use(require('./routes/login'));
+app.use('/biblioteca/index', require('./routes/index'));
 //Public
 app.use(express.static(path.join(__dirname, 'public')));
 //Startin server

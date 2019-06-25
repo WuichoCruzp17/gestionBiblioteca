@@ -16,13 +16,14 @@ passport.use('local.signin',new LocalStrategy({
     console.log("Login--> ",login);
     var rows = null;
     rows = await loginController.getUser(login);
-    console.log(rows);
     if(Array.isArray(rows)){
         if(rows.length>0){
             const user = rows[0];
             const validPassword = await helpers.matchPassword(password, user.contrasena);
             if(validPassword){
                 done(null, user, req.flash('success','Welcome '+ user.nombre));
+                console.log(user);
+                console.log("Usuario Valido");
             }else{
                 done(null, false, req.flash('message', 'Incorrect Password'));
             }
@@ -51,6 +52,19 @@ passport.use('local.signup',new LocalStrategy({
     }
     return done(null, newUser);
 }));
+
+/**
+ * Función que se encarga de guardar la session del usuario
+ */
+passport.serializeUser(async (user, done) => {
+     console.log("Usuario Serelize User: ", user);
+     switch(user.perfilId){
+         case 1:
+         done(null, user);
+         break;
+     }
+ });
+
 /**
  * Función que se encarga de validar si hay una cuenta de usuaria existente.
  */

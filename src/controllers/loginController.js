@@ -1,4 +1,5 @@
 const loginController = {};
+const passport = require('passport');
 const perfilController = require('../controllers/perfilController');
 const administrador = require('../models/administrador');
 loginController.login =async (req, res)=> {
@@ -9,11 +10,23 @@ loginController.login =async (req, res)=> {
 
 loginController.getUser = async(login)=>{
     var rows = null;
-    switch(login.usuarioId){
+    console.log("Admin :>",login);
+    switch(login.userId){
         case 1:
-            rows = await administrador.findByProperty('email',login.username);
+            console.log("Admministrador");
+            rows = await administrador.findByProperty('correo',login.username);
         break;
     }
+    return rows;
+};
+
+loginController.validateSession =async(req, res, next)=>{
+    console.log("Validade Session");
+    console.log(req.body);
+  await passport.authenticate('local.signin',{
+    successRedirect:'/biblioteca/index',
+    failureRedirect:'/'
+   })(req, res, next);
 };
 
 loginController.getLogout = (req, res)=>{

@@ -4,7 +4,7 @@ let perfil ={};
 perfil.table= {name:'PERFIL'}
 
 perfil.columns ={
-    catalagoId:{
+    perfilId:{
         column:'PERFIL_ID',
         primaryKey:true
     },

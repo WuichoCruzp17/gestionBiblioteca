@@ -42,7 +42,7 @@ administrador.columns ={
         column:'FECHA_CREACION'
     },
     usuarioCreacion:{
-        column:'USUARIO_CREACION'
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{

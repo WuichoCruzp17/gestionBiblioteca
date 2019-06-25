@@ -4,18 +4,19 @@ const pool = require('../database');
 const helpers = require('../lib/helpers');
 const loginController = require('../controllers/loginController');
 const administradorController = require('../controllers/administradorController');
-passport.use('local.signing',new LocalStrategy({
+passport.use('local.signin',new LocalStrategy({
     usernameField:'username',
     passwordField:'password',
     passReqToCallback:true
 }, async(req, username, password, done)=>{
     const login ={
-        userId:parseInt(req.body.usuario),
+        userId:parseInt(req.body.perfilId),
         username:req.body.username
     };
-
+    console.log("Login--> ",login);
     var rows = null;
     rows = await loginController.getUser(login);
+    console.log(rows);
     if(Array.isArray(rows)){
         if(rows.length>0){
             const user = rows[0];

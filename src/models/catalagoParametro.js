@@ -1,12 +1,16 @@
 const helpers = require('../lib/helpers');
 let catalagoParametro ={};
 
-catalagoParametro.table= {name:'CATALAGO'}
+catalagoParametro.table= {name:'CATALAGO_PARAMETRO'}
 
 catalagoParametro.columns ={
-    catalagoId:{
+    catalagoParametroId:{
         column:'CATALAGO_PARAMETRO_ID',
         primaryKey:true
+    },
+
+    catalogoId:{
+        column:'CATALOGO_ID'
     },
 
     nombre:{
@@ -28,8 +32,8 @@ catalagoParametro.columns ={
     fechaCreacion:{
         column:'FECHA_CREACION'
     },
-    usuarioCreacion:{
-        column:'USUARIO_CREACION'
+    usuarioCreo:{
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{
@@ -37,7 +41,7 @@ catalagoParametro.columns ={
     },
 
     usuarioModifico:{
-        column:'USUARIO_Modifico'
+        column:'USUARIO_MODIFICO'
     }
 
 };

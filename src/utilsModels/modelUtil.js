@@ -57,6 +57,7 @@ utilModel.getColumn = function (e, typeColumn) {
  */
 utilModel.getNameColumn = function (nameColumn) {
     try{
+        console.log(this.columns);
         return this.columns[nameColumn].column;
     }catch(err){
         console.log("No se encontro la propiedad de ", nameColumn, "\n modelUtil");
@@ -182,8 +183,7 @@ utilModel.createObjecStringtWithModel = function () {
 };
 
 utilModel.findByProperty = async function (property, value,columns) {
-    const complemento =(typeof value !="string")?  ` AND ${this.getColumn(this.columns,'primarykey')} <> ${value}`:"";
-    return  await genericDAO.execute(`SELECT ${this.getColumnString(columns)} FROM ${this.table.name} WHERE ${property}  =? ${(this.columns.hasOwnProperty('eliminadoId')) ? ' and ' +`ELIMINADO_ID = ${NOELIMINADO}`:''}` +complemento , [value]);       
+    return  await genericDAO.execute(`SELECT ${this.getColumnString(columns)} FROM ${this.table.name} WHERE ${this.getNameColumn(property)}  =? ${(this.columns.hasOwnProperty('eliminadoId')) ? ' and ' +`ELIMINADO_ID = ${NOELIMINADO}`:''}`, [value]);       
 };
 
 utilModel.executeStored =async function(nameStore,params){

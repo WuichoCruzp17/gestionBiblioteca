@@ -4,7 +4,6 @@ const {promisify} = require('util');
 const pool =mysql.createPool(database);
 
 pool.getConnection((err, connection)=>{
-
     if(err){
         if(err.code =='PROTOCOL_CONNECTION_LOST'){
             console.error('Database connection was closed');
@@ -14,6 +13,9 @@ pool.getConnection((err, connection)=>{
         }
         if(err.code ==='ECONNREFUSED'){
             console.error('Database connection was refused');
+        }
+        if(err.code ==='ER_ACCESS_DENIED_ERROR'){
+            console.error("Acceso denegado");
         }
     }
     if(connection){

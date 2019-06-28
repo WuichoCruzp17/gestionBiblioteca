@@ -13,7 +13,6 @@ passport.use('local.signin',new LocalStrategy({
         userId:parseInt(req.body.perfilId),
         username:req.body.username
     };
-    console.log("Login--> ",login);
     var rows = null;
     rows = await loginController.getUser(login);
     if(Array.isArray(rows)){
@@ -22,8 +21,6 @@ passport.use('local.signin',new LocalStrategy({
             const validPassword = await helpers.matchPassword(password, user.contrasena);
             if(validPassword){
                 done(null, user, req.flash('success','Welcome '+ user.nombre));
-                console.log(user);
-                console.log("Usuario Valido");
             }else{
                 done(null, false, req.flash('message', 'Incorrect Password'));
             }

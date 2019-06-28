@@ -57,7 +57,6 @@ utilModel.getColumn = function (e, typeColumn) {
  */
 utilModel.getNameColumn = function (nameColumn) {
     try{
-        console.log(this.columns);
         return this.columns[nameColumn].column;
     }catch(err){
         console.log("No se encontro la propiedad de ", nameColumn, "\n modelUtil");

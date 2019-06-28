@@ -1,71 +1,98 @@
+<head>
+    <script src="../biblioteca/js/pagina.js"></script>
+</head>
 <div class="container-fluid">
-    <form autocomplete="off">
+    <form autocomplete="off" id="paginaForm">
         <div class="container-flat-form">
             <div class="title-flat-form title-flat-blue">
                 Nueva Página.
             </div>
             <div class="row">
-            <div class="col-xs-12 col-sm-8 col-sm-offset-2">
-                <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" placeholder="Escribe el nombre de la página" required maxlength="20" data-toggle="tooltip" data-placement="top" title data-original-title="Escribe el nombre de la página.">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Nombre de Página</label>
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control" name="paginaId" v-model="paginaId"
+                            data-toggle="tooltip" data-placement="top" title
+                            data-original-title="Escribe el nombre de la página.">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>PaginaId</label>
+                    </div>
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control" name="nombre" v-model="nombre"
+                            placeholder="Escribe el nombre de la página" required maxlength="20" data-toggle="tooltip"
+                            data-placement="top" title data-original-title="Escribe el nombre de la página.">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Nombre de Página</label>
+                    </div>
+                    <div class="group-material">
+                        <input type="text" class="tooltips-general material-control" name="url" v-model="url"
+                            placeholder="Escribe el url de la página" required maxlength="100" data-toggle="tooltip"
+                            data-placement="top" title data-original-title="Escribe la url de la página.">
+                        <span class="highlight"></span>
+                        <span class="bar"></span>
+                        <label>Url de la página</label>
+                    </div>
+                    <div class="group-material">
+                        <span>Menú</span>
+                        <select class="tooltips-general material-control" name="seccionId" v-model="seccionId" data-toggle="tooltip"
+                            data-placement="top" data-toggle="tooltip" data-placement="top" required
+                            data-original-title="Elige la categoría del libro">
+                            <option value="" disabled="" selected="">Selecciona una categoría</option>
+                            {{#each catalagoParametroMenu}}
+                            <option value="{{catalogoParametroId}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="group-material">
+                        <span>Incluir en el menú</span>
+                        <input type="checkbox" class="material-control" name="incluirMenu" v-model="incluirMenu">
+                    </div>
+                    <div class="group-material">
+                        <span>Estatus</span>
+                        <select class="tooltips-general material-control" name="estatusId" v-model="estatusId" data-toggle="tooltip"
+                            data-placement="top" data-toggle="tooltip" data-placement="top" required
+                            data-original-title="Elige la categoría del libro">
+                            {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                            {{#each activoInactivo}}
+                            <option value="{{catalogoParametroId}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="group-material">
+                        <span>Eliminado</span>
+                        <select class="tooltips-general material-control" name="eliminadoId" v-model="eliminadoId" data-toggle="tooltip"
+                            data-placement="top" data-toggle="tooltip" data-placement="top" required
+                            data-original-title="Elige la categoría del libro">
+                            {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                            {{#each eliminadoList}}
+                            <option value="{{catalogoParametroId}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="group-material">
+                        <span>Fecha Creación</span>
+                        <input type="text" name="fechaCreacion" v-model="fechaCreacion" class="material-control">
+                    </div>
+                    <div class="group-material">
+                        <span>Usuario Creo</span>
+                        <input type="text" name="usuarioCreao" v-model="usuarioCreo" class="material-control">
+                    </div>
+                    <div class="group-material">
+                        <span>Fecha Modifico</span>
+                        <input type="text" name="fechaModifico" v-model="fechaModifico" class="material-control">
+                    </div>
+                    <div class="group-material">
+                        <span>Usuario Modifico</span>
+                        <input type="text" name="usuarioModifico" v-model="usuarioModifico"class="material-control">
+                    </div>
                 </div>
-                <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" placeholder="Escribe el nombre de la página" required maxlength="100" data-toggle="tooltip" data-placement="top" title data-original-title="Escribe la url de la página.">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Url de la página</label>
-                </div>
-                <div class="group-material">
-                    <span>Sección</span>
-                    <select class="tooltips-general material-control" data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required data-original-title="Elige la categoría del libro">
-                                    <option value="" disabled="" selected="">Selecciona una categoría</option>
-                                    <option value="categoria">Categoría</option>
-                                    <option value="categoria">Categoría</option>
-                                    <option value="categoria">Categoría</option>
-                                </select>
-                </div>
-                <div class="group-material">
-                    <span>Incluir en el menú</span>
-                    <input type="checkbox" class="material-control">
-                </div>
-                <div class="group-material">
-                    <span>Estatus</span>
-                    <select class="tooltips-general material-control" data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required data-original-title="Elige la categoría del libro">
-                                    <option value="" disabled="" selected="">Selecciona una categoría</option>
-                                    {{#each catalagoParametro}}
-                                    <option value="{{catalogoParametroId}}">{{nombre}}</option>
-                                    {{/each}}
-                                </select>
-                </div>
-                <div class="group-material">
-                    <span>Eliminado</span>
-                    <select class="tooltips-general material-control" data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required data-original-title="Elige la categoría del libro">
-                                    <option value="" disabled="" selected="">Selecciona una categoría</option>
-                                    <option value="categoria">Eliminado</option>
-                                    <option value="categoria">No Eliminado</option>
-                                </select>
-                </div>
-                <div class="group-material">
-                    <span>Fecha Creación</span>
-                    <input type="text" name="fechaCreacion" class="material-control">
-                </div>
-                <div class="group-material">
-                    <span>Usuario Creo</span>
-                    <input type="text" name="usuarioCreao" class="material-control">
-                </div>
-                <div class="group-material">
-                    <span>Fecha Modifico</span>
-                    <input type="text" name="fechaModifico" class="material-control">
-                </div>
-                <div class="group-material">
-                    <span>Usuario Modifico</span>
-                    <input type="text" name="usuarioModifico" class="material-control">
-                </div>
-            </div>
             </div>
         </div>
+        <p class="text-center">
+            <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                &nbsp;&nbsp; Limpiar</button>
+            <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>
+        </p>
     </form>
 </div>

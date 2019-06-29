@@ -11,7 +11,7 @@ var modsJS = {
                 paginaId:'',
                 nombre:'',
                 url:'',
-                seccionId:'',
+                seccionId:0,
                 incluirMenu:false,
                 estatusId:'',
                 eliminadoId:'',
@@ -19,11 +19,17 @@ var modsJS = {
                 usuarioCreo:'',
                 fechaModifico:'',
                 usuarioModifico:''
+            },
+            methods:{
+                onChangeEstatus(event){
+                    console.log(event);
+                    modsJS.from._data.seccionId = event.target.value;
+                }
             }
         });
 
         jQuery("#btnSave").on('click',function(){
-
+            paginaJS.save();
         });
     }
 };
@@ -31,7 +37,16 @@ var modsJS = {
 var paginaJS ={
 
     save:function(){
-
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/pagina/save",
+            data: modsJS.from._data,
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(resul);
+           }
+        });
     }
 
 };

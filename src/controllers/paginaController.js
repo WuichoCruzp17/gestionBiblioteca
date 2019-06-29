@@ -18,7 +18,7 @@ paginaController.save = async (req, res)=>{
     body.seccionId =(typeof body.seccionId == 'string') ?parseInt(body.seccionId):body.seccionId;
     body.estatusId = (typeof body.estatusId =='string') ? parseInt(body.estatusId) :body.parseInt;
     body.eliminadoId = (typeof body.eliminadoId =='string')? parseInt(body.eliminadoId):body.eliminadoId;
-    const row = await pagina.save(null,[body.paginaId,body.nombre, body.url,body.seccionId, body.estatusId, body.eliminadoId,null,req.user.administradorId,null,user.administradorId]);
+    const row = await pagina.save(null,[body.paginaId,body.nombre, body.url,body.seccionId, body.estatusId, body.eliminadoId,null,req.user.administradorId,null,req.user.administradorId]);
     if(row != null){
         res.status(200).json({ success: 'OK' });
     }else{

@@ -35,12 +35,12 @@
                     </div>
                     <div class="group-material">
                         <span>Menú</span>
-                        <select class="tooltips-general material-control" name="seccionId" v-model="seccionId" data-toggle="tooltip"
+                        <select class="tooltips-general material-control" name="seccionId" v-model="seccionId" @change ="onChangeEstatus($event)" data-toggle="tooltip"
                             data-placement="top" data-toggle="tooltip" data-placement="top" required
                             data-original-title="Elige la categoría del libro">
-                            <option value="" disabled="" selected="">Selecciona una categoría</option>
+                            <option value="0" disabled="" selected="">Selecciona una categoría</option>
                             {{#each catalagoParametroMenu}}
-                            <option value="{{catalogoParametroId}}">{{nombre}}</option>
+                            <option value="{{catalagoParametroId}}">{{nombre}}</option>
                             {{/each}}
                         </select>
                     </div>

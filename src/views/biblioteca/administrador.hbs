@@ -6,20 +6,6 @@
         <h1 class="all-tittles">Sistema bibliotecario <small>Administración Usuarios</small></h1>
     </div>
 </div>
-<div class="container-fluid">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="see" data-toggle="tab" href="#see-tab" role="tab" aria-controls="see-tab"
-                aria-selected="true">Administradores</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" id="add" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
-                aria-selected="false">Agregar o Editar.</a>
-        </li>
-    </ul>
-</div>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="see-tab" role="tabpanel" aria-labelledby="see">
         <form autocomplete="off" id="administradorForm">
             <div class="container-flat-form">
                 <div class="title-flat-form title-flat-blue">
@@ -161,6 +147,58 @@
         </p>
             </div>
         </form>
-    </div>
 
-</div>
+        <div id="demo">
+            <div class="container-fluid">
+                <div class="group-material">
+                    <form id="search" style="margin-bottom:5px">
+            Search <input name="query" v-model="searchQuery" class="form-control">
+          </form>
+                </div>
+            
+            </div>
+          
+          <demo-grid
+            :heroes="gridData"
+            :columns="gridColumns"
+            :filter-key="searchQuery">
+          </demo-grid>
+    </div>
+    <script type="text/x-template" id="grid-template">
+    <div class="container-fluid">
+          <table class="table">
+            <thead>
+              <tr>
+                <th v-for="key in columns"
+                  @click="sortBy(key)" 
+                  
+                  \:class="{ active: sortKey == key.name }">
+                  
+                  <template v-if="key.name !==''">
+                    \{{ key.name | capitalize }}
+                  <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'" >
+                  </template>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="entry in filteredHeroes">
+                <td>\{{entry['nombre']}}</td>
+                <td>\{{entry['correo']}}</td>
+                <td>
+                    <button type='button' class="btn btn-primary"  v-on:click='findById(entry["administradorId"])' >Editar</button>
+                    <button type='button'    class="btn btn-danger" v-on:click='remove(entry["administradorId"])'>Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </script>
+   
+
+
+
+
+
+        

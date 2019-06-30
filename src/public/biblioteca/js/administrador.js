@@ -25,10 +25,32 @@ var modsJS = {
             methods:{
             }
         });
-
+        modsJS.grid = utilGrid.createGrid({
+            script:'#grid-template',
+            element:'#demo',
+            columns:[
+                {name:'nombre'},{name:'correo'}, {name:'', name:''}
+            ],
+            data:[],
+            component:modsJS.getComponent()
+        });
         jQuery("#btnSave").on('click',function(){
             administradorJS.save();
         });
+        administradorJS.findAll();
+    },
+    getComponent:function(){
+        utilGrid.methods.findById = administradorJS.findById;
+        utilGrid.methods.remove =administradorJS.remove;
+        return {
+            template:'#grid-template',
+              props:    utilGrid.propsDefault,
+              data: utilGrid.dataDefault,
+              component: utilGrid.component,
+              computed: utilGrid.computed,
+              filters: utilGrid.filters,
+              methods: utilGrid.methods
+        }
     },
 
     clenForm:function(){
@@ -47,6 +69,21 @@ var modsJS = {
 };
 
 var administradorJS ={
+
+    findById:function(administradorId){
+        $.ajax({
+            method: "GET",
+            url: "/biblioteca/administrador/"+administradorId,
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(result);
+                if(result.status ==200){
+                    util.updateFrom(modsJS.from,result.object);
+                }
+           }
+        });
+    },
     save:function(){
         $.ajax({
             method: "POST",
@@ -61,5 +98,22 @@ var administradorJS ={
                 }
            }
         });
-    }
+    },
+
+    findAll:function(){
+        $.ajax({
+            method: "GET",
+            url: "/biblioteca/administrador/findAll",
+            data: modsJS.from._data,
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(result);
+                if(result.status ==200){
+                    modsJS.grid._data.gridData =result.rows;
+                }
+           }
+        });
+    },
+    remove:function(){}
 };

@@ -73,7 +73,6 @@ utilModel.getNameColumn = function (nameColumn) {
  */
 utilModel.getColumnString = function (cols) {
     var nameColumns = "";
-    /* console.log("Cols: ",cols); */
     const columns = (cols !== undefined && cols !== null) ? cols : this.columns;
     const c = this.getNumColumns(columns) - 1;
     var i = 0;
@@ -85,7 +84,7 @@ utilModel.getColumnString = function (cols) {
         i++;
 
     }
-   /*  console.log("Name Columns: "+nameColumns); */
+
     return nameColumns;
 }
 /**

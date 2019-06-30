@@ -6,7 +6,7 @@ administrador.table= {name:'ADMINISTRADOR'}
 administrador.columns ={
     administradorId:{
         column:'ADMINISTRADOR_ID',
-        primaryKey:true
+        primarykey:true
     },
 
     nombre:{

@@ -21,6 +21,23 @@ administradorController.index = async(req, res) =>{
     res.render('biblioteca/administrador',{perfilList,activoInactivo:catalagoParametroAI, eliminadoList:catalagoParametroENE});
 };
 
+administradorController.findById =async(req, res)=>{
+    var object = null;
+  if(typeof res !=="undefined"){
+      console.log("Parametors: ",req.params)
+        object = await administrador.findById(req.params.id);
+        if(object !== null){
+            res.status(200).json({status:200, object});
+        }else{
+            res.status(500).json({status:500,object});
+        }
+  }else{
+      console.log("ENTRO");
+    object = await administrador.findById(req);
+    return object;
+  }
+};
+
 administradorController.save = async(req, res)=>{
     const body = req.body;
     console.log(body);
@@ -33,6 +50,25 @@ administradorController.save = async(req, res)=>{
         res.status(500).json({ status:500, error: 'Error en la  insercción' });
     }
 }
+
+administradorController.findAll = async(req, res)=>{
+    var cols = {
+        administradorId: administrador.getNameColumn('administradorId'),
+        concat: bdComponents.functions.CONCAT([administrador.getNameColumn('nombre'), administrador.getNameColumn('apellidoPaterno'), administrador.getNameColumn('apellidoMaterno')], "nombre"),
+        correo: administrador.getNameColumn('correo')
+    };
+    const rows =  await administrador.findAll(cols);
+    if(typeof res !="undefined"){
+        if(rows != null){
+            res.status(200).json({status:200,rows});
+        }else{
+            res.status(500).json({status:500, error:'Error al cargar al cargar'});
+        }
+        
+    }else{
+        return row;
+    }
+};
 
 administradorController.findByProperty = async(property,value) =>{
     return await administrador.findByProperty(property,value, cols);

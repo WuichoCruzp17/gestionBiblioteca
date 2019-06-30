@@ -6,13 +6,15 @@ var modsJS = {
     from:null,
     ini:function(){
         modsJS.from = util.createVueFrom({
-            el:"#paginaForm",
+            el:"#administradorForm",
             data:{
-                paginaId:'',
+                administradorId:'',
+                perfilId:0,
                 nombre:'',
-                url:'',
-                seccionId:0,
-                incluirMenu:false,
+                apellidoPaterno:'',
+                apellidoMaterno:'',
+                correo:'',
+                contrasena:'',
                 estatusId:1,
                 eliminadoId:3,
                 fechaCreacion:'',
@@ -21,23 +23,20 @@ var modsJS = {
                 usuarioModifico:''
             },
             methods:{
-                onChangeEstatus(event){
-                    console.log(event);
-                    modsJS.from._data.seccionId = event.target.value;
-                }
             }
         });
 
         jQuery("#btnSave").on('click',function(){
-            paginaJS.save();
+            administradorJS.save();
         });
     },
 
     clenForm:function(){
         modsJS.from._data.paginaId ="";
-        modsJS.from._data.url="";
-        modsJS.from._data.seccionId = 0,
-        modsJS.from._data.incluirMenu =false;
+        modsJS.from._data.apellidoPaterno="";
+        modsJS.from._data.apellidoMaterno="";
+        modsJS.from._data.correo ="",
+        modsJS.from._data.contrasena ="";
         modsJS.from._data.estatusId =1;
         modsJS.from._data.eliminadoId = 3;
         modsJS.fechaCreacion = "";
@@ -47,12 +46,11 @@ var modsJS = {
     }
 };
 
-var paginaJS ={
-
+var administradorJS ={
     save:function(){
         $.ajax({
             method: "POST",
-            url: "/biblioteca/pagina/save",
+            url: "/biblioteca/administrador/save",
             data: modsJS.from._data,
             dataType: 'json'
         }).done(function (result) {
@@ -64,5 +62,4 @@ var paginaJS ={
            }
         });
     }
-
 };

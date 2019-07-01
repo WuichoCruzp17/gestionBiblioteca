@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="group-material">
-                            <input type="text" class="tooltips-general material-control" required name="apellidoMaterno"
+                            <input type="text" class="tooltips-general material-control" required  name="apellidoMaterno"
                                 v-model="apellidoMaterno" data-toggle="tooltip" data-placement="top" title
                                 data-original-title="Escribe el nombre el apellido materno.">
                             <span class="highlight"></span>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="group-material">
-                            <input type="text" class="tooltips-general material-control" required name="correo"
+                            <input type="text" class="tooltips-general material-control" required  pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" name="correo"
                                 v-model="correo" data-toggle="tooltip" data-placement="top" title
                                 data-original-title="Escribe el correo.">
                             <span class="highlight"></span>

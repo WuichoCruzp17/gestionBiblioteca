@@ -35,7 +35,12 @@ var modsJS = {
             component:modsJS.getComponent()
         });
         jQuery("#btnSave").on('click',function(){
-            administradorJS.save();
+            if(modsJS.from._data.administradorId != ""){
+                administradorJS.update();
+            }else{
+                administradorJS.save();
+            }
+            
         });
         administradorJS.findAll();
     },
@@ -54,6 +59,7 @@ var modsJS = {
     },
 
     clenForm:function(){
+        modsJS.from._data.administradorId = "";
         modsJS.from._data.paginaId ="";
         modsJS.from._data.apellidoPaterno="";
         modsJS.from._data.apellidoMaterno="";
@@ -95,11 +101,28 @@ var administradorJS ={
                 console.log(result);
                 if(result.status ==200){
                     modsJS.clenForm();
+                    administradorJS.findAll();
                 }
            }
         });
     },
 
+    update:function(){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/administrador/update",
+            data: modsJS.from._data,
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(result);
+                if(result.status ==200){
+                    modsJS.clenForm();
+                    administradorJS.findAll();
+                }
+           }
+        });
+    },
     findAll:function(){
         $.ajax({
             method: "GET",
@@ -110,6 +133,7 @@ var administradorJS ={
            if(result){
                 console.log(result);
                 if(result.status ==200){
+                    modsJS.grid._data.gridData =[];
                     modsJS.grid._data.gridData =result.rows;
                 }
            }

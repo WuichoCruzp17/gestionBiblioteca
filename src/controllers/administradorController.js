@@ -3,6 +3,7 @@ const bdComponents  = require('../utilsModels/bdComponents');
 const catalogoParametroController = require('../controllers/catalogoParametroController');
 const perfilController = require('../controllers/perfilController');
 const helpers = require('../lib/helpers');
+const dateFormat = require('dateformat');
 const administradorController = {};
 var cols = {
     administradorId: administrador.getNameColumn('administradorId'),
@@ -43,13 +44,32 @@ administradorController.save = async(req, res)=>{
     console.log(body);
     body.administradorId = (body.administradorId !=='') ? parseInt(body.administradorId) :null;
     body.contrasena = await helpers.encryptPassword(body.contrasena);
-    const row = administrador.save(null,[body.administradorId,body.perfilId,body.nombre, body.apellidoPaterno, body.apellidoMaterno,body.correo,body.contrasena, body.estatusId,body.eliminadoId,null,req.user.administradorId,null,req.user.administradorId]);
+    const row = administrador.save(null,[body.administradorId,body.perfilId,body.nombre, body.apellidoPaterno, body.apellidoMaterno,body.correo,body.contrasena, body.estatusId,body.eliminadoId,dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss"),req.user.administradorId,dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss"),req.user.administradorId]);
     if(row != null){
         res.status(200).json({ status:200,success: 'OK' });
     }else{
         res.status(500).json({ status:500, error: 'Error en la  insercción' });
     }
 }
+
+administradorController.update = async(req,res)=>{
+    const {administradorId, nombre,apellidoPaterno, apellidoMaterno,correo} = req.body;
+    const row = await administrador.update({
+        columns:{
+            nombre:{column:administrador.getNameColumn('nombre'),value:nombre},
+            apellidoPaterno:{column:administrador.getNameColumn('apellidoPaterno'),value:apellidoPaterno},
+            apellidoMaterno:{column:administrador.getNameColumn('apellidoMaterno'),value:apellidoMaterno},
+            correo:{column:administrador.getNameColumn('correo'),value:correo},
+            usuarioModifico:{column:administrador.getNameColumn('usuarioModifico'),value:req.user.administradorId},
+            fehaModifico:{column:administrador.getNameColumn('fechaModifico'), value: dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")}
+        }
+    },{column:administrador.getNameColumn('administradorId'),value:administradorId});
+    if(row != null){
+        res.status(200).json({success:'OK'});
+    }else{
+        res.status(500).json({error:'Error en el srvidor'});
+    }
+};
 
 administradorController.findAll = async(req, res)=>{
     var cols = {

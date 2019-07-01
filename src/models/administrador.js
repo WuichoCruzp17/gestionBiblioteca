@@ -41,7 +41,7 @@ administrador.columns ={
     fechaCreacion:{
         column:'FECHA_CREACION'
     },
-    usuarioCreacion:{
+    usuarioCreo:{
         column:'USUARIO_CREO'
     },
 

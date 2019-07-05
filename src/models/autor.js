@@ -4,9 +4,9 @@ let autor ={};
 autor.table= {name:'AUTOR'}
 
 autor.columns ={
-    catalagoId:{
+    autorId:{
         column:'AUTOR_ID',
-        primaryKey:true
+        primarykey:true
     },
 
     nombre:{
@@ -24,16 +24,16 @@ autor.columns ={
     fechaCreacion:{
         column:'FECHA_CREACION'
     },
-    usuarioCreacion:{
-        column:'USUARIO_CREACION'
+    usuarioCreo:{
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{
         column:'FECHA_MODIFICO'
-    },
+    },  
 
     usuarioModifico:{
-        column:'USUARIO_Modifico'
+        column:'USUARIO_MODIFICO'
     }
 
 };

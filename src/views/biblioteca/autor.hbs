@@ -1,0 +1,140 @@
+<head>
+    <title>Autor</title>
+<script src="../biblioteca/js/autor.js"></script>
+</head>
+<div class="container">
+    <div class="page-header">
+        <h1 class="all-tittles">Sistema bibliotecario <small>Administración de Autores</small></h1>
+    </div>
+</div>
+<form autocomplete="off" id="autorForm">
+            <div class="container-flat-form">
+                <div class="title-flat-form title-flat-blue">
+                    Adminsitrador.
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 hidden">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" name="autorId"
+                                v-model="autorId" data-toggle="tooltip" data-placement="top" title
+                                data-original-title="Autor Id.">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Autor Id</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" required name="nombre"
+                                v-model="nombre" data-toggle="tooltip" data-placement="top" title
+                                data-original-title="Escribe el nombre del Administrador.">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label id="campoNombre">Nombre</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Estatus</span>
+                            <select class="tooltips-general material-control" name="estatusId" v-model="estatusId"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige la categoría del libro">
+                                {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                                {{#each activoInactivo}}
+                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Eliminado</span>
+                            <select class="tooltips-general material-control" name="eliminadoId" v-model="eliminadoId"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige la categoría del libro">
+                                {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                                {{#each eliminadoList}}
+                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Fecha Creación</span>
+                            <input type="text" name="fechaCreacion" v-model="fechaCreacion" class="material-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Usuario Creo</span>
+                            <input type="text" name="usuarioCreao" v-model="usuarioCreo" class="material-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Fecha Modifico</span>
+                            <input type="text" name="fechaModifico" v-model="fechaModifico" class="material-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Usuario Modifico</span>
+                            <input type="text" name="usuarioModifico" v-model="usuarioModifico"
+                                class="material-control">
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center">
+            <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                &nbsp;&nbsp; Limpiar</button>
+            <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>
+        </p>
+            </div>
+        </form>
+       <div id="demo">
+            <div class="container-fluid">
+                <div class="group-material">
+                    <form id="search" style="margin-bottom:5px">
+            Search <input name="query" v-model="searchQuery" class="form-control">
+          </form>
+                </div>
+            
+            </div>
+          
+          <demo-grid
+            :heroes="gridData"
+            :columns="gridColumns"
+            :filter-key="searchQuery">
+          </demo-grid>
+    </div>
+    <script type="text/x-template" id="grid-template">
+    <div class="container-fluid">
+          <table class="table">
+            <thead>
+              <tr>
+                <th v-for="key in columns"
+                  @click="sortBy(key)" 
+                  
+                  \:class="{ active: sortKey == key.name }">
+                  
+                  <template v-if="key.name !==''">
+                    \{{ key.name | capitalize }}
+                  <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'" >
+                  </template>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="entry in filteredHeroes">
+                <td>\{{entry['nombre']}}</td>
+                <td>
+                    <button type='button' class="btn btn-primary"  v-on:click='findById(entry["autorId"])' >Editar</button>
+                    <button type='button'    class="btn btn-danger" v-on:click='remove(entry["autorId"])'>Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </script>

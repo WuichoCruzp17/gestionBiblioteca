@@ -46,6 +46,7 @@ app.use(require('./routes/login'));
 app.use('/biblioteca/index', require('./routes/index'));
 app.use('/biblioteca/pagina', require('./routes/pagina'));
 app.use('/biblioteca/administrador', require('./routes/administrador'));
+app.use('/biblioteca/autor', require('./routes/autor'));
 //Public
 app.use(express.static(path.join(__dirname, 'public')));
 //Startin server

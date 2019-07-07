@@ -26,6 +26,22 @@ autorController.save = async(req, res)=>{
     }
 };
 
+
+autorController.update = async(req, res)=>{
+    const row = await autor.update({
+        columns:{
+            nombre:{column:autor.getNameColumn('nombre'), value:req.body.nombre},
+            fechaModifico:{column:autor.getNameColumn('fechaModifico'), value: dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss")},
+            usuarioModifco:{column:autor.getNameColumn('usuarioModifico'), value:req.user.administradorId}
+        }
+    },{column:autor.getNameColumn('autorId'),value:req.body.autorId});
+    if(row != null){
+        res.status(200).json({status:200,success:'OK'});
+    }else{
+        res.status(500).json({status:500,error:'Error en el srvidor'});
+    }
+};
+
 autorController.findById = async(req, res)=>{
     var object = null;
     if(typeof res !=="undefined"){

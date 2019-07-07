@@ -1,0 +1,103 @@
+<head>
+    <title>Autor</title>
+    <script src="../biblioteca/js/categoria.js"></script>
+</head>
+<div class="container">
+    <div class="page-header">
+        <h1 class="all-tittles">Sistema bibliotecario <small>Administración de Categorias</small></h1>
+    </div>
+</div>
+<form autocomplete="off" id="autorForm">
+    <div class="container-flat-form">
+        <div class="title-flat-form title-flat-blue">
+            Categoria.
+        </div>
+        <div class="row">
+            <div class="col-sm-3 hidden">
+                <div class="group-material">
+                    <input type="text" class="tooltips-general material-control" name="categoriaId"
+                        v-model="categoriaId" data-toggle="tooltip" data-placement="top" title
+                        data-original-title="Categoria Id.">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>CategoriaId</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="group-material">
+                    <input type="text" class="tooltips-general material-control" required name="nombre" v-model="nombre"
+                        data-toggle="tooltip" data-placement="top" title data-original-title="Nombre de la Categoria.">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Nombre de la Categoria</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="group-material">
+                    <input type="text" class="tooltips-general material-control" required name="descripcion"
+                        v-model="descripcion" data-toggle="tooltip" data-placement="top" title
+                        data-original-title="Descripción.">
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Descripcion de la Categoría</label>
+                </div>
+            </div>
+            <div class="col-sm-4 hidden">
+                <div class="group-material">
+                    <span>Estatus</span>
+                    <select class="tooltips-general material-control" name="estatusId" v-model="estatusId"
+                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
+                        data-original-title="Elige la categoría del libro">
+                        {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                        {{#each activoInactivo}}
+                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4 hidden">
+                <div class="group-material">
+                    <span>Eliminado</span>
+                    <select class="tooltips-general material-control" name="eliminadoId" v-model="eliminadoId"
+                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
+                        data-original-title="Elige la categoría del libro">
+                        {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                        {{#each eliminadoList}}
+                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4 hidden">
+                <div class="group-material">
+                    <span>Fecha Creación</span>
+                    <input type="text" name="fechaCreacion" v-model="fechaCreacion" class="material-control">
+                </div>
+            </div>
+            <div class="col-sm-4 hidden">
+                <div class="group-material">
+                    <span>Usuario Creo</span>
+                    <input type="text" name="usuarioCreao" v-model="usuarioCreo" class="material-control">
+                </div>
+            </div>
+            <div class="col-sm-4 hidden">
+                <div class="group-material">
+                    <span>Fecha Modifico</span>
+                    <input type="text" name="fechaModifico" v-model="fechaModifico" class="material-control">
+                </div>
+            </div>
+            <div class="col-sm-4 hidden">
+                <div class="group-material">
+                    <span>Usuario Modifico</span>
+                    <input type="text" name="usuarioModifico" v-model="usuarioModifico" class="material-control">
+                </div>
+            </div>
+            <p class="text-center">
+                <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
+                    &nbsp;&nbsp; Limpiar</button>
+                <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp;
+                    Guardar</button>
+            </p>
+        </div>
+    </div>
+</form>

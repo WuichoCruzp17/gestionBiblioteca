@@ -21,7 +21,7 @@ var modsJS ={
             script:'#grid-template',
             element:'#demo',
             columns:[
-                {name:'nombre'}, {name:'', name:''}
+                {name:'nombre'}, {name:''}
             ],
             data:[],
             component:modsJS.getComponent()
@@ -29,7 +29,7 @@ var modsJS ={
         jQuery("#btnSave").on('click',function(){
             if(modsJS.from._data.nombre != ""){
                 if(modsJS.from._data.autorId != ""){
-                
+                    autor.update();
                 }else{
                     autor.save();
                 }
@@ -77,6 +77,21 @@ var autor={
                 if(result.status ==200){
                     modsJS.clenForm();
                     //administradorJS.findAll();
+                }
+           }
+        });
+    },
+    update:function(){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/autor/update",
+            data: modsJS.from._data,
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                if(result.status ==200){
+                    modsJS.clenForm();
+                    autor.findAll();
                 }
            }
         });

@@ -4,13 +4,13 @@ let editorial ={};
 editorial.table= {name:'EDITORIAL'}
 
 editorial.columns ={
-    catalagoId:{
+    editorialId:{
         column:'EDITORIAL_ID',
-        primaryKey:true
+        primarykey:true
     },
 
     nombre:{
-        column:'NOMBRE_EDITORIAL'
+        column:'NOMBRE'
     },
 
     direccion:{
@@ -32,8 +32,8 @@ editorial.columns ={
     fechaCreacion:{
         column:'FECHA_CREACION'
     },
-    usuarioCreacion:{
-        column:'USUARIO_CREACION'
+    usuarioCreo:{
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{

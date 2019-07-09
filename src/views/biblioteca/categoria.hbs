@@ -7,7 +7,7 @@
         <h1 class="all-tittles">Sistema bibliotecario <small>Administración de Categorias</small></h1>
     </div>
 </div>
-<form autocomplete="off" id="autorForm">
+<form autocomplete="off" id="categoriaForm">
     <div class="container-flat-form">
         <div class="title-flat-form title-flat-blue">
             Categoria.
@@ -26,7 +26,7 @@
             <div class="col-sm-4">
                 <div class="group-material">
                     <input type="text" class="tooltips-general material-control" required name="nombre" v-model="nombre"
-                        data-toggle="tooltip" data-placement="top" title data-original-title="Nombre de la Categoria.">
+                        data-toggle="tooltip" data-placement="top" id="catgoriaFrom_nombre" title data-original-title="Nombre de la Categoria.">
                     <span class="highlight"></span>
                     <span class="bar"></span>
                     <label>Nombre de la Categoria</label>
@@ -34,7 +34,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" required name="descripcion"
+                    <input type="text" class="tooltips-general material-control"  name="descripcion"
                         v-model="descripcion" data-toggle="tooltip" data-placement="top" title
                         data-original-title="Descripción.">
                     <span class="highlight"></span>
@@ -101,3 +101,47 @@
         </div>
     </div>
 </form>
+<div id="demo">
+    <div class="container-fluid">
+        <div class="group-material">
+            <form id="search" style="margin-bottom:5px">
+                Search <input name="query" v-model="searchQuery" class="form-control">
+            </form>
+        </div>
+
+    </div>
+
+    <demo-grid :heroes="gridData" :columns="gridColumns" :filter-key="searchQuery">
+    </demo-grid>
+</div>
+<script type="text/x-template" id="grid-template">
+    <div class="container-fluid">
+          <table class="table">
+            <thead>
+              <tr>
+                <th v-for="key in columns"
+                  @click="sortBy(key)" 
+                  
+                  \:class="{ active: sortKey == key.name }">
+                  
+                  <template v-if="key.name !==''">
+                    \{{ key.name | capitalize }}
+                  <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'" >
+                  </template>
+                  </span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="entry in filteredHeroes">
+                <td>\{{entry['nombre']}}</td>
+                <td>\{{entry['descripcion']}}</td>
+                <td>
+                    <button type='button' class="btn btn-primary"   v-on:click='findById(entry["categoriaId"])' >Editar</button>
+                    <button type='button'    class="btn btn-danger" v-on:click='prepareToRemove(entry["categoriaId"])'>Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </script>

@@ -4,7 +4,7 @@ let categoria ={};
 categoria.table= {name:'CATEGORIA'}
 
 categoria.columns ={
-    catalagoId:{
+    categoriaId:{
         column:'CATEGORIA_ID',
         primaryKey:true
     },
@@ -28,8 +28,8 @@ categoria.columns ={
     fechaCreacion:{
         column:'FECHA_CREACION'
     },
-    usuarioCreacion:{
-        column:'USUARIO_CREACION'
+    usuarioCreo:{
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{

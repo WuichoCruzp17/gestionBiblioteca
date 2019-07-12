@@ -188,7 +188,7 @@
                 <td>\{{entry['correo']}}</td>
                 <td>
                     <button type='button' class="btn btn-primary"  v-on:click='findById(entry["administradorId"])' >Editar</button>
-                    <button type='button'    class="btn btn-danger" v-on:click='remove(entry["administradorId"])'>Eliminar</button>
+                    <button type='button'    class="btn btn-danger" v-on:click='prepareToRemove(entry["administradorId"])'>Eliminar</button>
                 </td>
               </tr>
             </tbody>

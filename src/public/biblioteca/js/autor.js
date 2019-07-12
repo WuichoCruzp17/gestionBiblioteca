@@ -29,17 +29,17 @@ var modsJS ={
         jQuery("#btnSave").on('click',function(){
             if(modsJS.from._data.nombre != ""){
                 if(modsJS.from._data.autorId != ""){
-                    autor.update();
+                    autorJS.update();
                 }else{
-                    autor.save();
+                    autorJS.save();
                 }
             }
         });
-          autor.findAll();
+          autorJS.findAll();
     },
     getComponent:function(){
-        utilGrid.methods.findById = autor.findById;
-        utilGrid.methods.remove =autor.remove;
+        utilGrid.methods.findById = autorJS.findById;
+        utilGrid.methods.prepateToRemove =autorJS.prepateToRemove;
         return {
             template:'#grid-template',
               props:    utilGrid.propsDefault,
@@ -64,7 +64,7 @@ var modsJS ={
     
 };
 
-var autor={
+var autorJS={
     save:function(){
         $.ajax({
             method: "POST",
@@ -91,7 +91,7 @@ var autor={
            if(result){
                 if(result.status ==200){
                     modsJS.clenForm();
-                    autor.findAll();
+                    autorJS.findAll();
                 }
            }
         });
@@ -111,8 +111,46 @@ var autor={
         });
     },
 
-    remove:function(autorId){
+    findGridObject:function(autorId){
+        const rows = modsJS.grid._data.gridData;
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].autorId ==autorId){
+                return rows[i];
+            }
+        }
+     },
+    prepateToRemove:function(autorId){
+        const autor = autorJS.findGridObject(autorId);
+        swal({
+            title: "¿Estás seguro?",
+            text: "Desea eliminar la categoría: "+ autor.nombre,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            autorJS.remove(autorId);
+            jQuery(".cancel").click();
+        });
+    },
 
+    remove:function(autorId){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/autor/delete  ",
+            data: {autorId},
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(result);
+                if(result.status ==200){
+                    autorJS.findAll();
+                }
+           }
+        });
     },
     findAll:function(){
         $.ajax({

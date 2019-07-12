@@ -42,6 +42,20 @@ autorController.update = async(req, res)=>{
     }
 };
 
+autorController.delete = async(req, res)=>{
+    const row = await autor.update({
+        columns: {
+            eliminadoId: { column: autor.getNameColumn('eliminadoId'), value:4 },
+            fechaModifico: { column: autor.getNameColumn('fechaModifico'), value: dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss") }
+        }
+    },{column:autor.getNameColumn('autorId'), value:req.body.autorId});
+    if (row != null) {
+        res.status(200).json({ status: 200, success: 'OK' });
+    } else {
+        res.status(500).json({ status: 500, error: 'Error en el srvidor' });
+    }
+};
+
 autorController.findById = async(req, res)=>{
     var object = null;
     if(typeof res !=="undefined"){

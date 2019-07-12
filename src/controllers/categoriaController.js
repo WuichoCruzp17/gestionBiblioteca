@@ -26,6 +26,21 @@ categoriaController.save = async(req, res)=>{
     }
 };
 
+
+categoriaController.delete = async(req, res)=>{
+    const row = await categoria.update({
+        columns: {
+            eliminadoId: { column: categoria.getNameColumn('eliminadoId'), value:4 },
+            fechaModifico: { column: categoria.getNameColumn('fechaModifico'), value: dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss") }
+        }
+    },{column:categoria.getNameColumn('categoriaId'), value:req.body.categoriaId});
+    if (row != null) {
+        res.status(200).json({ status: 200, success: 'OK' });
+    } else {
+        res.status(500).json({ status: 500, error: 'Error en el srvidor' });
+    }
+};
+
 categoriaController.findAll = async(req, res)=>{
     var cols = {
         categoriaId: categoria.getNameColumn('categoriaId'),
@@ -41,7 +56,7 @@ categoriaController.findAll = async(req, res)=>{
         }
 
     } else {
-        return row;
+        return rows;
     }
 };
 

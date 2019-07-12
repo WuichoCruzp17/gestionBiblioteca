@@ -85,7 +85,7 @@ editorialController.findAll = async (req, res) => {
         }
 
     } else {
-        return row;
+        return rows;
     }
 };
 

@@ -71,6 +71,19 @@ administradorController.update = async(req,res)=>{
     }
 };
 
+administradorController.delete = async(req, res)=>{
+    const row = await administrador.update({
+        columns: {
+            eliminadoId: { column: administrador.getNameColumn('eliminadoId'), value:4 },
+            fechaModifico: { column: administrador.getNameColumn('fechaModifico'), value: dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss") }
+        }
+    },{column:administrador.getNameColumn('administradorId'), value:req.body.administradorId});
+    if (row != null) {
+        res.status(200).json({ status: 200, success: 'OK' });
+    } else {
+        res.status(500).json({ status: 500, error: 'Error en el srvidor' });
+    }
+};
 administradorController.findAll = async(req, res)=>{
     var cols = {
         administradorId: administrador.getNameColumn('administradorId'),

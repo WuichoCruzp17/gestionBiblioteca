@@ -131,7 +131,7 @@
                 <td>\{{entry['nombre']}}</td>
                 <td>
                     <button type='button' class="btn btn-primary"  v-on:click='findById(entry["autorId"])' >Editar</button>
-                    <button type='button'    class="btn btn-danger" v-on:click='remove(entry["autorId"])'>Eliminar</button>
+                    <button type='button'    class="btn btn-danger" v-on:click='prepateToRemove(entry["autorId"])'>Eliminar</button>
                 </td>
               </tr>
             </tbody>

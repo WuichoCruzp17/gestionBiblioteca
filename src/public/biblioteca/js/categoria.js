@@ -101,10 +101,49 @@ var categoriaJS={
         });
     },
 
+    findGridObject:function(categoriaId){
+        const rows = modsJS.grid._data.gridData;
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].categoriaId ==categoriaId){
+                return rows[i];
+            }
+        }
+     },
+
     upadte:function(){},
 
-    prepareToRemove:function(categoriaId){},
+    prepareToRemove:function(categoriaId){
+        const categoria = categoriaJS.findGridObject(categoriaId);
+        swal({
+            title: "¿Estás seguro?",
+            text: "Desea eliminar la categoría: "+ categoria.nombre,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            categoriaJS.remove(categoriaId);
+            jQuery(".cancel").click();
+        });
+    },
 
-    remove:function(categoriaId){}
+    remove:function(categoriaId){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/categoria/delete  ",
+            data: {categoriaId},
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(result);
+                if(result.status ==200){
+                    categoriaJS.findAll();
+                }
+           }
+        });
+    }
 
 };

@@ -46,7 +46,7 @@ var modsJS = {
     },
     getComponent:function(){
         utilGrid.methods.findById = administradorJS.findById;
-        utilGrid.methods.remove =administradorJS.remove;
+        utilGrid.methods.prepareToRemove =administradorJS.prepareToRemove;
         return {
             template:'#grid-template',
               props:    utilGrid.propsDefault,
@@ -139,5 +139,47 @@ var administradorJS ={
            }
         });
     },
-    remove:function(){}
+
+    findGridObject:function(administradorId){
+        const rows = modsJS.grid._data.gridData;
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].administradorId ==administradorId){
+                return rows[i];
+            }
+        }
+     },
+ 
+    prepareToRemove:function(administradorId){
+        const administrador = administradorJS.findGridObject(administradorId);
+        swal({
+            title: "¿Estás seguro?",
+            text: "De eliminar el editorial: "+ administrador.nombre,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            administradorJS .remove(administradorId);
+            jQuery(".cancel").click();
+        });
+    },
+
+    remove:function(administradorId){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/administrador/delete  ",
+            data: {administradorId},
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                console.log(result);
+                if(result.status ==200){
+                   administradorJS.findAll();
+                }
+           }
+        });
+    }
 };

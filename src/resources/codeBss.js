@@ -5,7 +5,8 @@ const codes ={
     INACTIVO:2,
     IDIOMA:4,
     ESTATUS:1,
-    ESTATUS_ELIMANDO:2
+    ESTATUS_ELIMANDO:2,
+    MENU_RAIZ:5
 };
 
 module.exports =codes;

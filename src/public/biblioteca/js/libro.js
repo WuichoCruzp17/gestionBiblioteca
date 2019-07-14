@@ -36,6 +36,7 @@ var modsJS = {
         jQuery("#btnSave").on('click', function () {
             libroJS.prepateToSave();
         });
+        jQuery("#btnClen").on('click',function(){modsJS.clenForm();});
     },
 
     clenForm:function(){
@@ -121,6 +122,15 @@ var libroJS = {
 
     save: function (libro) {
         console.log(libro);
+        if(Array.isArray(libro.autoresId)){
+            const autorestText = jQuery("#libroForm_autoresId").select2('data');
+            var autores = "";
+            var cantAutores = autorestText.length -1;
+            for(var i=0;i<autorestText.length;i++){
+                autores += (i< cantAutores) ? autorestText[i].text +", " :autorestText[i].text;
+            }
+            libro.autoresText = autores;
+        }else{libro.autoresText = null;}
         $.ajax({
             method: "POST",
             url: "/biblioteca/libro/save",

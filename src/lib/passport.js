@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const pool = require('../database');
 const helpers = require('../lib/helpers');
 const loginController = require('../controllers/loginController');
+const paginaController = require('../controllers/paginaController');
 const administradorController = require('../controllers/administradorController');
 passport.use('local.signin',new LocalStrategy({
     usernameField:'username',
@@ -57,6 +58,9 @@ passport.serializeUser(async (user, done) => {
      console.log("Usuario Serelize User: ", user);
      switch(user.perfilId){
          case 1:
+            var paginas = await paginaController.menu(user.perfilId);
+            user.paginas = paginas[0];
+            user.menuHtml = await paginaController.buildMenuHtml(user.paginas);
          done(null, user);
          break;
      }

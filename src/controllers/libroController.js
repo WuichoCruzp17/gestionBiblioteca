@@ -21,7 +21,6 @@ libroController.index = async(req, res)=>{
     catalagoParametroENE = (catalagoParametroENE != null) ? catalagoParametroENE:[];
     var autorList = await autorController.findAll();
     autorList = (autorList != null) ? autorList:[];
-    console.log(autorList);
     res.render('biblioteca/libro', {editorialList, idiomaList, categoriaLit,activoInactivo:catalagoParametroAI, eliminadoList:catalagoParametroENE,autorList});
 };
 
@@ -34,7 +33,6 @@ libroController.save = async(req, res)=>{
             body[k.split('[]')[0]] = respaldo;
         }
     }
-     var libroAutor ="";
     body.libroId = (body.libroId == "") ? null : parseInt(body.libroId);
     body.estatusId = (typeof body.estatusId == 'string') ? parseInt(body.estatusId) : body.estatusId;
     body.eliminadoId = (typeof body.eliminadoId == 'string') ? parseInt(body.eliminadoId) : body.eliminadoId;
@@ -44,7 +42,7 @@ libroController.save = async(req, res)=>{
             body.libroId, 
             body.isbn, 
             body.titulo, 
-            libroAutor,
+            body.autoresText,
             body.editorialId,
             body.idiomaId, 
             body.categoriaId,

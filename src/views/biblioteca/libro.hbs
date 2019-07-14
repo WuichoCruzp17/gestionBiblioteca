@@ -1,13 +1,15 @@
 <head>
-    <title>Autor</title>
+    <title>Libros</title>
+    <link rel="stylesheet" href="../css/select2.css">
     <script src="../biblioteca/js/libro.js"></script>
+    <script src="../js/jquery.select2.js"></script>
 </head>
 <div class="container">
     <div class="page-header">
         <h1 class="all-tittles">Sistema bibliotecario <small>Administración de Libros</small></h1>
     </div>
 </div>
-<form autocomplete="off" id="autorForm">
+<form autocomplete="off" id="libroForm">
     <div class="container-flat-form">
         <div class="title-flat-form title-flat-blue">
             Libro.
@@ -24,17 +26,17 @@
             </div>
             <div class="col-sm-4">
                 <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" required name="isbn" v-model="isbn"
-                        data-toggle="tooltip" data-placement="top">
+                    <input type="text" class="tooltips-general material-control" required name="isbn" v-model="isbn" minlength="13"
+                        data-toggle="tooltip" data-placement="top" data-name="ISBN">
                     <span class="highlight"></span>
                     <span class="bar"></span>
                     <label>ISB del Libro</label>
                 </div>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" required name="titulo" v-model="titulo"
-                        data-toggle="tooltip" data-placement="top">
+                    <input type="text" class="tooltips-general material-control" required name="titulo" v-model="titulo" 
+                        data-toggle="tooltip" data-placement="top" data-name="Titulo">
                     <span class="highlight"></span>
                     <span class="bar"></span>
                     <label>Titulo del Libro</label>
@@ -42,10 +44,21 @@
             </div>
             <div class="col-sm-4">
                 <div class="group-material">
-                    <select class="tooltips-general material-control" name="editorialId" v-model="editorialId"
+                    <select class="tooltips-general material-control" name="autoresId" multiple="multiple" data-name="Autores"
                         data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Elige el editorialId">
-                        <option value="0" disabled="" selected="">Selecciona una Editorial</option>
+                        data-original-title="Seleccione uno o mas autores">
+                        {{#each autorList}}
+                        <option value="{{autorId}}">{{nombre}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="group-material">
+                    <select class="tooltips-general material-control" name="editorialId"  data-name="Editorial"
+                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
+                        data-original-title="Elige el editorial">
+                        <option value="0" disabled="" selected="">Selecciona un Editorial</option>
                         {{#each editorialList}}
                         <option value="{{editorialId}}">{{nombre}}</option>
                         {{/each}}
@@ -54,7 +67,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="group-material">
-                    <select class="tooltips-general material-control" name="editorialId" v-model="idiomaId"
+                    <select class="tooltips-general material-control" name="idiomaId" v-model="idiomaId" data-name="Idioma"
                         data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
                         data-original-title="Elige un idioma">
                         <option value="0" disabled="" selected="">Selecciona un Idioma</option>
@@ -66,10 +79,10 @@
             </div>
             <div class="col-sm-4">
                 <div class="group-material">
-                    <select class="tooltips-general material-control" name="categoriaId" v-model="categoriaId"
+                    <select class="tooltips-general material-control" name="categoriaId" v-model="categoriaId" data-name="Categoria"
                         data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
                         data-original-title="Elige una categoria">
-                        <option value="0" disabled="" selected="">Selecciona un Categoria</option>
+                        <option value="0" disabled="" selected="">Selecciona una Categoria</option>
                         {{#each categoriaLit}}
                         <option value="{{categoriaId}}">{{nombre}}</option>
                         {{/each}}
@@ -78,7 +91,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="group-material">
-                    <input type="number" class="tooltips-general material-control" required name="cantidad"
+                    <input type="number" class="tooltips-general material-control" required name="cantidad" data-name="Cantidad"
                         v-model="cantidad" data-toggle="tooltip" data-placement="top">
                     <span class="highlight"></span>
                     <span class="bar"></span>
@@ -90,7 +103,7 @@
                     <span>Estatus</span>
                     <select class="tooltips-general material-control" name="estatusId" v-model="estatusId"
                         data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Elige la categoría del libro">
+                        data-original-title="Estatus del Libro">
                         {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
                         {{#each activoInactivo}}
                         <option value="{{catalagoParametroId}}">{{nombre}}</option>

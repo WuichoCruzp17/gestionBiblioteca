@@ -4,7 +4,7 @@ let libro ={};
 libro.table= {name:'LIBRO'}
 
 libro.columns ={
-    catalagoId:{
+    libroId:{
         column:'LIBRO_ID',
         primaryKey:true
     },
@@ -23,6 +23,10 @@ libro.columns ={
 
     editorialId:{
         column:'EDITORIAL_ID'
+    },
+
+    idiomaId:{
+        column:'IDIOMA'
     },
 
     categoriaId:{

@@ -4,7 +4,7 @@ let libroAutor ={};
 libroAutor.table= {name:'LIBRO_AUTOR'}
 
 libroAutor.columns ={
-    catalagoId:{
+    libroAutorId:{
         column:'LIBRO_AUTOR_ID',
         primaryKey:true
     },

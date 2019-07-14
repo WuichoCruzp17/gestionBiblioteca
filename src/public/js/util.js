@@ -11,12 +11,28 @@ var util ={
         }) */
         return new Vue(object);
       },
-  
+      
+      dinamicIdFrom:function(formId){
+        var $inputs = jQuery("#"+formId +" .material-control")
+        for(var i=0;i<$inputs.length;i++){
+          $inputs[i].setAttribute('id',formId+'_'+$inputs[i].name);
+          }
+      },
       clenFrom:function(object){
         for(key in object){
           if(utilString.validateString(object[key])){
             object[key] = '';
           }else{object[key] = 0;}
+        }
+      },
+
+      validateNullOrEmpty:function(val){
+        if(typeof val =='string'){
+          return (val !=="")? true:false;
+        }else if(typeof val =='object'){
+          return Array.isArray(val);
+        }else{
+          return false;
         }
       },
       updateFrom:function(vuFrom,object){

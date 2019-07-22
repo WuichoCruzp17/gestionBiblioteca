@@ -6,6 +6,7 @@ const categorioController = require('../controllers/categoriaController');
 const autorController = require('../controllers/autorController');
 const {IDIOMA, ESTATUS, ESTATUS_ELIMANDO} = require('../resources/codeBss');
 const libroAutorController = require('../controllers/libroAutorController');
+const ISBN = require( 'isbn-validate' );
 const libroController = {};
 
 libroController.index = async(req, res)=>{
@@ -26,6 +27,7 @@ libroController.index = async(req, res)=>{
 
 libroController.save = async(req, res)=>{
     const body =req.body;
+    if(ISBN.Validate(body.isbn)){
     for(var k in body){
         if(k.split('[]').length>1){
             var respaldo= body[k];
@@ -63,8 +65,31 @@ libroController.save = async(req, res)=>{
         row = await libroAutorController.save(null, null,autores);
         res.status(200).json({ status: 200, success: 'OK' });
     } else {
-        res.status(500).json({ status: 500, error: 'Error en la  insercción' });
+        res.status(200).json({ status: 500, error: 'Error en la  insercción' });
     }
+}else{
+    console.log("ISBN NO VALIDO");
+    res.status(200).json({status:500, error:'ISBN no valido'});
+}
+};
+
+libroController.findCriteria = async(req, res)=>{
+
+    var {autorId, editorialId, nombre, orden, ordenarAscDesc} = req.body;
+    autorId =(autorId == null) ? 0:autorId;
+    editorialId =(editorialId == null) ? 0:editorialId;
+    nombre =(nombre == null) ? "":nombre;
+    orden =(orden == null) ? "":orden;
+    ordenarAscDesc =(ordenarAscDesc == null) ? "":ordenarAscDesc;
+    const rows = await libro.executeStored('getLibros',[autorId, editorialId,nombre,orden,ordenarAscDesc]);
+   
+    if(Array.isArray([rows])){
+        console.log("Rows-->", rows[0]);
+        res.status(200).json({status:200, libros:rows[0]});
+    }else{
+        res.status(200).json({status:500, error:'Error en la obtención de los libros'});
+    }
+    
 };
 
 module.exports = libroController;

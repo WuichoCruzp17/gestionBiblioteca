@@ -9,150 +9,239 @@
         <h1 class="all-tittles">Sistema bibliotecario <small>Administración de Libros</small></h1>
     </div>
 </div>
-<form autocomplete="off" id="libroForm">
-    <div class="container-flat-form">
-        <div class="title-flat-form title-flat-blue">
-           Nuevo Libro.
-        </div>
-        <div class="row">
-            <div class="col-sm-3 hidden">
-                <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" name="libroId" v-model="libroId"
-                        data-toggle="tooltip" data-placement="top" title data-original-title="Autor Id.">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Libro Id</label>
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#newLibros">Nuevos Libros</a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#libros">Libros</a>
+        </li>
+    </ul>
+</div>
+<div class="tab-content">
+    <div id="newLibros" class="tab-pane fade in active">
+        <form autocomplete="off" id="libroForm">
+            <div class="container-flat-form">
+                <div class="title-flat-form title-flat-blue">
+                    Nuevo Libro.
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" required name="isbn" v-model="isbn" minlength="13"
-                        data-toggle="tooltip" data-placement="top" data-name="ISBN">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>ISB del Libro</label>
+                <div class="">
+                    <div class="col-sm-3 hidden">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" name="libroId"
+                                v-model="libroId" data-toggle="tooltip" data-placement="top" title
+                                data-original-title="Autor Id.">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Libro Id</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" required name="isbn"
+                                v-model="isbn" minlength="13" data-toggle="tooltip" data-placement="top"
+                                data-name="ISBN">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>ISB del Libro</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" required name="titulo"
+                                v-model="titulo" data-toggle="tooltip" data-placement="top" data-name="Titulo">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Titulo del Libro</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="autoresId" multiple="multiple"
+                                data-name="Autores" data-toggle="tooltip" data-placement="top" data-toggle="tooltip"
+                                data-placement="top" required data-original-title="Seleccione uno o mas autores">
+                                {{#each autorList}}
+                                <option value="{{autorId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="editorialId" data-name="Editorial"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige el editorial">
+                                <option value="0" disabled="" selected="">Selecciona una Editorial</option>
+                                {{#each editorialList}}
+                                <option value="{{editorialId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="idiomaId" v-model="idiomaId"
+                                data-name="Idioma" data-toggle="tooltip" data-placement="top" data-toggle="tooltip"
+                                data-placement="top" required data-original-title="Elige un idioma">
+                                <option value="0" disabled="" selected="">Selecciona un Idioma</option>
+                                {{#each idiomaList}}
+                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="categoriaId" v-model="categoriaId"
+                                data-name="Categoria" data-toggle="tooltip" data-placement="top" data-toggle="tooltip"
+                                data-placement="top" required data-original-title="Elige una categoria">
+                                <option value="0" disabled="" selected="">Selecciona una Categoria</option>
+                                {{#each categoriaLit}}
+                                <option value="{{categoriaId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <input type="number" class="tooltips-general material-control" required name="cantidad"
+                                data-name="Cantidad" v-model="cantidad" data-toggle="tooltip" data-placement="top">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Cantidad de copias</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Estatus</span>
+                            <select class="tooltips-general material-control" name="estatusId" v-model="estatusId"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Estatus del Libro">
+                                {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                                {{#each activoInactivo}}
+                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Eliminado</span>
+                            <select class="tooltips-general material-control" name="eliminadoId" v-model="eliminadoId"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige la categoría del libro">
+                                {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
+                                {{#each eliminadoList}}
+                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Fecha Creación</span>
+                            <input type="text" name="fechaCreacion" v-model="fechaCreacion" class="material-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Usuario Creo</span>
+                            <input type="text" name="usuarioCreao" v-model="usuarioCreo" class="material-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Fecha Modifico</span>
+                            <input type="text" name="fechaModifico" v-model="fechaModifico" class="material-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 hidden">
+                        <div class="group-material">
+                            <span>Usuario Modifico</span>
+                            <input type="text" name="usuarioModifico" v-model="usuarioModifico"
+                                class="material-control">
+                        </div>
+                    </div>
                 </div>
+                <p class="text-center">
+                    <button type="reset" class="btn btn-info" style="margin-right: 20px;" id="btnClen"><i
+                            class="zmdi zmdi-roller"></i>
+                        &nbsp;&nbsp; Limpiar</button>
+                    <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i>
+                        &nbsp;&nbsp; Guardar</button>
+                </p>
             </div>
-            <div class="col-sm-8">
-                <div class="group-material">
-                    <input type="text" class="tooltips-general material-control" required name="titulo" v-model="titulo" 
-                        data-toggle="tooltip" data-placement="top" data-name="Titulo">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Titulo del Libro</label>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="group-material">
-                    <select class="tooltips-general material-control" name="autoresId" multiple="multiple" data-name="Autores"
-                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Seleccione uno o mas autores">
-                        {{#each autorList}}
-                        <option value="{{autorId}}">{{nombre}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="group-material">
-                    <select class="tooltips-general material-control" name="editorialId"  data-name="Editorial"
-                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Elige el editorial">
-                        <option value="0" disabled="" selected="">Selecciona un Editorial</option>
-                        {{#each editorialList}}
-                        <option value="{{editorialId}}">{{nombre}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="group-material">
-                    <select class="tooltips-general material-control" name="idiomaId" v-model="idiomaId" data-name="Idioma"
-                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Elige un idioma">
-                        <option value="0" disabled="" selected="">Selecciona un Idioma</option>
-                        {{#each idiomaList}}
-                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="group-material">
-                    <select class="tooltips-general material-control" name="categoriaId" v-model="categoriaId" data-name="Categoria"
-                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Elige una categoria">
-                        <option value="0" disabled="" selected="">Selecciona una Categoria</option>
-                        {{#each categoriaLit}}
-                        <option value="{{categoriaId}}">{{nombre}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="group-material">
-                    <input type="number" class="tooltips-general material-control" required name="cantidad" data-name="Cantidad"
-                        v-model="cantidad" data-toggle="tooltip" data-placement="top">
-                    <span class="highlight"></span>
-                    <span class="bar"></span>
-                    <label>Cantidad de copias</label>
-                </div>
-            </div>
-            <div class="col-sm-4 hidden">
-                <div class="group-material">
-                    <span>Estatus</span>
-                    <select class="tooltips-general material-control" name="estatusId" v-model="estatusId"
-                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Estatus del Libro">
-                        {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
-                        {{#each activoInactivo}}
-                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4 hidden">
-                <div class="group-material">
-                    <span>Eliminado</span>
-                    <select class="tooltips-general material-control" name="eliminadoId" v-model="eliminadoId"
-                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top" required
-                        data-original-title="Elige la categoría del libro">
-                        {{!-- <option value="" disabled="" selected="">Selecciona una categoría</option> --}}
-                        {{#each eliminadoList}}
-                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-4 hidden">
-                <div class="group-material">
-                    <span>Fecha Creación</span>
-                    <input type="text" name="fechaCreacion" v-model="fechaCreacion" class="material-control">
-                </div>
-            </div>
-            <div class="col-sm-4 hidden">
-                <div class="group-material">
-                    <span>Usuario Creo</span>
-                    <input type="text" name="usuarioCreao" v-model="usuarioCreo" class="material-control">
-                </div>
-            </div>
-            <div class="col-sm-4 hidden">
-                <div class="group-material">
-                    <span>Fecha Modifico</span>
-                    <input type="text" name="fechaModifico" v-model="fechaModifico" class="material-control">
-                </div>
-            </div>
-            <div class="col-sm-4 hidden">
-                <div class="group-material">
-                    <span>Usuario Modifico</span>
-                    <input type="text" name="usuarioModifico" v-model="usuarioModifico" class="material-control">
-                </div>
-            </div>
-        </div>
-        <p class="text-center">
-            <button type="reset" class="btn btn-info" style="margin-right: 20px;" id="btnClen"><i class="zmdi zmdi-roller"></i>
-                &nbsp;&nbsp; Limpiar</button>
-            <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>
-        </p>
+        </form>
     </div>
-</form>
+    <div id="libros" class="tab-pane fade">
+        <div class="container-flat-form">
+            <div class="title-flat-form title-flat-blue">
+                Libros.
+            </div>
+            <form autocomplete="off" id="´filtroLibros">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" name="tituloLibro"
+                                minlength="13" data-toggle="tooltip" data-placement="top" data-name="Titulo del libro"
+                                id="filtro_titulo">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Titulo del libro</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="autoresId" id="filtro_autorId">
+                                {{#each autorList}}
+                                <option value="{{autorId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="editorialId" data-name="Editorial"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                data-original-title="Elige el editorial" id="filtro_editorialId">
+                                <option value="0" disabled="" selected="">Selecciona un Editorial</option>
+                                {{#each editorialList}}
+                                <option value="{{editorialId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <div class="row" id="card">
+
+                <demo-card :heroes="cardData" :columns="cardColumns">
+                </demo-card>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/x-template" id="card-template">
+
+    <div class="container-fluid">
+        <div class="col-sm-4" v-for="entry in filteredHeroes">
+                    <div class="card card-default">
+                        <div class="card-header">\{{entry['titulo']}}</div>
+
+                        <div class="card-body">
+                            <h4>\{{entry['autor']}}</h4>
+                            <p>\{{entry['editorial']}}</p>
+                            <p>\{{entry['idioma']}}</p>
+                            <p><a href="#">More...</a></p>
+                        </div>
+                    </div>
+
+                </div>
+          
+        </script>

@@ -51,6 +51,7 @@ paginaController.buildMenuHtml = async(paginas)=>{
                         paginaId:paginas[i].paginaId,
                         url:paginas[i].url,
                         icon:paginas[i].icon,
+                        iconMenu:paginas[i].iconMenu,
                         nombreMenu:paginas[i].nombreMenu,
                         pagina:paginas[i].nombre
                     });
@@ -60,6 +61,7 @@ paginaController.buildMenuHtml = async(paginas)=>{
                         paginaId:paginas[i].paginaId,
                         url:paginas[i].url,
                         icon:paginas[i].icon,
+                        iconMenu:paginas[i].iconMenu,
                         nombreMenu:paginas[i].nombreMenu,
                         pagina:paginas[i].nombre
                     });
@@ -109,7 +111,7 @@ paginaController.buildMenuHtml = async(paginas)=>{
                         dropMenu +=`
                         <li>
                         <div class="dropdown-menu-button">
-                        <i class="zmdi zmdi-case zmdi-hc-fw">
+                        <i class="${a[i].iconMenu}">
                         </i>&nbsp;&nbsp; ${a[i].nombreMenu} 
                         <i class="zmdi zmdi-chevron-down pull-right zmdi-hc-fw"></i>
                         </div>
@@ -137,7 +139,6 @@ paginaController.buildMenuHtml = async(paginas)=>{
             }
         }
     }
-      console.log(html);
 return html;
 }
 

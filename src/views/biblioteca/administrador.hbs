@@ -6,10 +6,22 @@
         <h1 class="all-tittles">Sistema bibliotecario <small>Administración Usuarios</small></h1>
     </div>
 </div>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#newUsuario">Nuevo Usuario</a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#usuarios">Usuario</a>
+        </li>
+    </ul>
+</div>
+<div class="tab-content">
+    <div id="newUsuario" class="tab-pane fade in active">
         <form autocomplete="off" id="administradorForm">
             <div class="container-flat-form">
                 <div class="title-flat-form title-flat-blue">
-                    Adminsitrador.
+                    Nuevo Usuario.
                 </div>
                 <div class="row">
                     <div class="col-sm-3 hidden">
@@ -24,7 +36,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="group-material">
-                           
+
                             <select class="tooltips-general material-control" name="perfilId" v-model="perfilId"
                                 data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
                                 required data-original-title="Elige la categoría del libro">
@@ -35,7 +47,7 @@
                             </select>
                             <span class="highlight"></span>
                             <span class="bar"></span>
-                            
+
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -60,7 +72,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="group-material">
-                            <input type="text" class="tooltips-general material-control" required  name="apellidoMaterno"
+                            <input type="text" class="tooltips-general material-control" required name="apellidoMaterno"
                                 v-model="apellidoMaterno" data-toggle="tooltip" data-placement="top" title
                                 data-original-title="Escribe el nombre el apellido materno.">
                             <span class="highlight"></span>
@@ -70,8 +82,9 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="group-material">
-                            <input type="text" class="tooltips-general material-control" required  pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" name="correo"
-                                v-model="correo" data-toggle="tooltip" data-placement="top" title
+                            <input type="text" class="tooltips-general material-control" required
+                                pattern="^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
+                                name="correo" v-model="correo" data-toggle="tooltip" data-placement="top" title
                                 data-original-title="Escribe el correo.">
                             <span class="highlight"></span>
                             <span class="bar"></span>
@@ -141,30 +154,36 @@
                     </div>
                 </div>
                 <p class="text-center">
-            <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i class="zmdi zmdi-roller"></i>
-                &nbsp;&nbsp; Limpiar</button>
-            <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i> &nbsp;&nbsp; Guardar</button>
-        </p>
+                    <button type="reset" class="btn btn-info" style="margin-right: 20px;"><i
+                            class="zmdi zmdi-roller"></i>
+                        &nbsp;&nbsp; Limpiar</button>
+                    <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i>
+                        &nbsp;&nbsp; Guardar</button>
+                </p>
             </div>
         </form>
-
+    </div>
+    <div id="usuarios" class="tab-pane fade">
         <div id="demo">
             <div class="container-fluid">
                 <div class="group-material">
                     <form id="search" style="margin-bottom:5px">
-            Search <input name="query" v-model="searchQuery" class="form-control">
-          </form>
+                        Search <input name="query" v-model="searchQuery" class="form-control">
+                    </form>
                 </div>
-            
+
             </div>
-          
-          <demo-grid
-            :heroes="gridData"
-            :columns="gridColumns"
-            :filter-key="searchQuery">
-          </demo-grid>
+
+            <demo-grid :heroes="gridData" :columns="gridColumns" :filter-key="searchQuery">
+            </demo-grid>
+        </div>
     </div>
-    <script type="text/x-template" id="grid-template">
+
+</div>
+
+
+
+<script type="text/x-template" id="grid-template">
     <div class="container-fluid">
           <table class="table">
             <thead>
@@ -195,10 +214,3 @@
           </table>
           </div>
         </script>
-   
-
-
-
-
-
-        

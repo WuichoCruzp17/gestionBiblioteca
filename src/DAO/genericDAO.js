@@ -24,7 +24,6 @@ genericDAO.execute = async (query, params) => {
         }else{
             console.log('pool no es una function en genericDAO.js');
         }
-        
         return rows;
 };
 module.exports = genericDAO;

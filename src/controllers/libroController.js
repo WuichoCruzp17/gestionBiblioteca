@@ -81,6 +81,7 @@ libroController.findCriteria = async(req, res)=>{
     nombre =(nombre == null) ? "":nombre;
     orden =(orden == null) ? "":orden;
     ordenarAscDesc =(ordenarAscDesc == null) ? "":ordenarAscDesc;
+    console.log("Parametors de entradad: ", req.body);
     const rows = await libro.executeStored('getLibros',[autorId, editorialId,nombre,orden,ordenarAscDesc]);
    
     if(Array.isArray([rows])){

@@ -17,6 +17,13 @@ utilModel.save = async function (cols, params) {
 utilModel.update = async function (columns, objectId) {
         return await genericDAO.execute(`UPDATE ${this.table.name}  ${this.updateColumns(columns)} WHERE ${objectId.column} = ${objectId.value}`);
 };
+
+
+utilModel.delete = async function(objectId,column){
+    return await genericDAO.execute(`DELETE FROM ${this.table.name}  WHERE ${(typeof column != 'undefined')? column: this.getColumn(this.columns, 'primarykey')} = ?`,[objectId]);
+}
+
+
 /**
  * Función que se encarga de realizar una consulta en la base de datos con el id del objeto.
  * @param {Int} objectId Es el id del objeto.

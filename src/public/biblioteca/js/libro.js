@@ -6,13 +6,6 @@ var modsJS = {
 
     ini: function () {
         util.dinamicIdFrom("libroForm");
-        jQuery("#libroForm_autoresId").select2({
-            placeholder: 'Seleciona uno o mas autores'
-        });
-
-        jQuery("#libroForm_editorialId").select2({
-            placeholder: 'Seleciona una editorial'
-        });
         modsJS.from = util.createVueFrom({
             el: "#libroForm",
             data: {
@@ -30,6 +23,15 @@ var modsJS = {
                 usuarioModifico: ''
             }
         });
+        jQuery("#libroForm_autoresId").select2({
+            placeholder: 'Seleciona uno o mas autores'
+        });
+
+        jQuery("#libroForm_editorialId").select2({
+            placeholder: 'Seleciona una editorial'
+        });
+        utilCard.methods.findById = libroJS.findById;
+        utilCard.methods.prepateToRemove = libroJS.prepateToRemove;
         modsJS.card = utilCard.createCard({
             script: '#card-template',
             element: '#card',
@@ -92,6 +94,14 @@ var modsJS = {
         modsJS.from._data.usuarioModifico = '';
         jQuery("#libroForm_autoresId").val(null).trigger("change");
         jQuery("#libroForm_editorialId").val([0]).trigger("change");
+    },
+
+    setArray:function(array,property){
+        var a = [];
+        for(var i=0;i<array.length;i++){
+            a.push(array[i][property]);
+        }
+        return a;
     }
 
 };
@@ -101,6 +111,25 @@ var modsJS = {
 var libroJS = {
 
     cache: {},
+    findById:function(libroId){
+        $.ajax({
+            method: "GET",
+            url: "/biblioteca/libro/"+libroId,
+            dataType: 'json'
+        }).done(function (result) {
+            if (result) {
+                if (result.status == 200) {
+                    util.updateFrom(modsJS.from,result.object);                 
+                    jQuery("#libroForm_autoresId").val(modsJS.setArray(result.object.autores,'autorId')).change();
+                    jQuery("#libroForm_editorialId").val(result.object.editorialId).change();
+                    const  nav=jQuery(".nav-tabs li a")[0];
+                    nav.click();
+                } else {
+
+                } 
+            }
+        });
+    },
     prepateToSave: function () {
         var $elements = jQuery("#libroForm .material-control");
         const libro = {};
@@ -155,13 +184,16 @@ var libroJS = {
             });
         } else {
             modsJS.cache = libro;
-
-            libroJS.save(libro);
+            if(libro.libroId !=""){
+                libroJS.update(libro);
+            }else{
+                libroJS.save(libro);
+            }
+           
         }
     },
 
     save: function (libro) {
-        console.log(libro);
         if (Array.isArray(libro.autoresId)) {
             const autorestText = jQuery("#libroForm_autoresId").select2('data');
             var autores = "";
@@ -181,7 +213,46 @@ var libroJS = {
 
                 if (result.status == 200) {
                     modsJS.clenForm();
-                    //administradorJS.findAll();
+                    libroJS.reloadLibros();
+                } else {
+                    swal({
+                        title: "!ISBN del libro no valido!",
+                        text: modsJS.cache.isbn,
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#5cb85c",
+                        confirmButtonText: "OK",
+                        animation: "slide-from-top",
+                        closeOnConfirm: false
+                    }, function () {
+                        jQuery(".cancel").click();
+                    });
+                }
+            }
+        });
+    },
+
+    update:function(libro){
+        if (Array.isArray(libro.autoresId)) {
+            const autorestText = jQuery("#libroForm_autoresId").select2('data');
+            var autores = "";
+            var cantAutores = autorestText.length - 1;
+            for (var i = 0; i < autorestText.length; i++) {
+                autores += (i < cantAutores) ? autorestText[i].text + ", " : autorestText[i].text;
+            }
+            libro.autoresText = autores;
+        } else { libro.autoresText = null; }
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/libro/update",
+            data: libro,
+            dataType: 'json'
+        }).done(function (result) {
+            if (result) {
+
+                if (result.status == 200) {
+                    modsJS.clenForm();
+                    libroJS.reloadLibros();
                 } else {
                     swal({
                         title: "!ISBN del libro no valido!",
@@ -223,8 +294,53 @@ var libroJS = {
                     modsJS.card._data.cardData = result.libros;
                 } else {
 
-                } console.log(result);
+                } 
             }
+        });
+    },
+    prepateToRemove:function(libroId){
+        const libro = utilCard.findCardObject(modsJS.card,'libroId',libroId,);
+        modsJS.cache  = libro;
+        swal({
+            title: "¿Estás seguro?",
+            text: "Desea eliminar el libro: "+ libro.titulo,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            libroJS.remove(libroId);
+            jQuery(".cancel").click();
+        });
+    },
+    remove:function(libroId){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/libro/delete",
+            data: {libroId},
+            dataType: 'json'
+        }).done(function (result) {
+           if(result){
+                if(result.status ==200){
+                    libroJS.reloadLibros();
+                }else{
+                    swal({
+                        title: "!Error al intentar eliminar el libro!",
+                        text: "No se pudo eliminar el libro: "+modsJS.cache.titulo,
+                        type: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#5cb85c",
+                        confirmButtonText: "OK",
+                        animation: "slide-from-top",
+                        closeOnConfirm: false
+                    }, function () {
+                        jQuery(".cancel").click();
+                    });
+                }
+           }
         });
     }
 };

@@ -68,6 +68,80 @@ var util = {
       string += (i === 0) ? arr[i].toLocaleUpperCase() : arr[i];
     }
     return string;
+  },
+
+  validateForm:function(form){
+    var $elements = jQuery("#"+form +" .material-control");
+        const entity = {};
+        const inputsErr = [];
+        for (var i = 0; i < $elements.length; i++) {
+            if ($elements[i].hasAttribute('required')) {
+                if (util.validateNullOrEmpty(jQuery($elements[i]).val())) {
+                    if ($elements[i].hasAttribute('pattern')) {
+                        var result = RegExp($elements.pattern).exec($elements[i].value);
+                        if (result != null) {
+                            entity[$elements[i].name] = jQuery($elements[i]).val();
+                        } else {
+                            inputsErr.push({
+                                pattern: true,
+                                title: "Información proporcionada no valida",
+                                name: $elements[i].dataset.name
+                            });
+                        }
+                    } else {
+                        entity[$elements[i].name] = jQuery($elements[i]).val();
+                    }
+                } else {
+                    inputsErr.push({
+                        pattern: false,
+                        title: $elements[i].getAttribute('data-original-title'),
+                        name: $elements[i].dataset.name
+                    });
+                }
+            } else {
+                entity[$elements[i].name] = jQuery($elements[i]).val();
+            }
+        }
+
+        if (inputsErr.length > 0) {
+            var text = "Revise los siguientes campos del formulario :\n";
+            var cant = inputsErr.length - 1;
+            for (var i = 0; i < inputsErr.length; i++) {
+                text += (i < cant) ? inputsErr[i].name + ", " : inputsErr[i].name;
+            }
+            swal({
+                title: "!Formulario No valido!",
+                text: text,
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#5cb85c",
+                confirmButtonText: "OK",
+                animation: "slide-from-top",
+                closeOnConfirm: false
+            }, function () {
+
+                jQuery(".cancel").click();
+            });
+            return {validate:false};
+        } else {
+            return {validate:true, entity};
+        }
+  },
+
+  messageError:function(title,text){
+    swal({
+      title: title,
+      text: text,
+      type: "warning",
+      showCancelButton: false,
+      confirmButtonColor: "#5cb85c",
+      confirmButtonText: "OK",
+      animation: "slide-from-top",
+      closeOnConfirm: false
+  }, function () {
+
+      jQuery(".cancel").click();
+  });
   }
 
 
@@ -234,7 +308,15 @@ var utilCard = {
     });
 
     return demo;
-  }
+  },
+  findCardObject:function(card,property,value){
+    const rows = card._data.cardData;
+    for(var i=0;i<rows.length;i++){
+        if(rows[i][property] ==value){
+            return rows[i];
+        }
+    }
+ }
 };
 
 var utilString = {

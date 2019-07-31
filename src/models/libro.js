@@ -6,7 +6,7 @@ libro.table= {name:'LIBRO'}
 libro.columns ={
     libroId:{
         column:'LIBRO_ID',
-        primaryKey:true
+        primarykey:true
     },
 
     isbn:{
@@ -48,8 +48,8 @@ libro.columns ={
     fechaCreacion:{
         column:'FECHA_CREACION'
     },
-    usuarioCreacion:{
-        column:'USUARIO_CREACION'
+    usuarioCreo:{
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{
@@ -57,7 +57,7 @@ libro.columns ={
     },
 
     usuarioModifico:{
-        column:'USUARIO_Modifico'
+        column:'USUARIO_MODIFICO'
     }
 
 };

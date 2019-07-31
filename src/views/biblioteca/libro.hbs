@@ -1,5 +1,5 @@
 <head>
-    <title>Libros</title>
+    <title>Libro</title>
     <link rel="stylesheet" href="../css/select2.css">
     <script src="../biblioteca/js/libro.js"></script>
     <script src="../js/jquery.select2.js"></script>
@@ -247,7 +247,8 @@
                             <p>Editorial:  \{{entry['editorial']}}</p>
                             <p>Idioma: \{{entry['idioma']}}</p>
                             <p>Copias: \{{entry['cantidad']}}</p>
-                            <p><a href="#">More...</a></p>
+                            <p><button class="btn btn-primary btn-block" v-on:click='findById(entry["libroId"])'>Editar</button></p>
+                            <p><button class="btn btn-danger btn-block"  v-on:click='prepateToRemove(entry["libroId"])'>Eliminar</button></p>
                         </div>
                     </div>
 

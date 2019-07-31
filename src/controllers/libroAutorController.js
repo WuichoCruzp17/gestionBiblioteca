@@ -28,6 +28,23 @@ libroAutorController.save = async(req, res,autores)=>{
         }
         return rows;
     }
-}
+};
+
+libroAutorController.findProperty = async(req, res)=>{
+    var rows = null;
+    if(typeof req =="object"){
+        
+    }else{
+
+        rows = await libroAutor.findByProperty(req,res);
+        return rows;
+    }
+
+};
+
+libroAutorController.delete = async(objectId, column)=>{
+    const row = await libroAutor.delete(objectId, column);
+    return row;
+};
 
 module.exports = libroAutorController;

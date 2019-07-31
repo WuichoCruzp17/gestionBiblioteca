@@ -4,13 +4,11 @@ let alumno ={};
 alumno.table= {name:'ALUMNO'}
 
 alumno.columns ={
-    catalagoId:{
+    alumnoId:{
         column:'ALUMNO_ID',
-        primaryKey:true
+        primarykey:true
     },
-    perfilId:{
-        column:'PERFIL_ID'
-    },
+
     matricula:{
         column:'MATRICULA'
     },
@@ -26,6 +24,9 @@ alumno.columns ={
         column:'APELLIDO_MATERNO'
     },
 
+    grado:{
+        column:'GRADO'
+    },
     grupo:{
         column:'GRUPO'
     },
@@ -46,11 +47,11 @@ alumno.columns ={
         column:'ELIMINADO_ID'
     },
     
-    fechaCreacion:{
-        column:'FECHA_CREACION'
+    fechaCreo:{
+        column:'FECHA_CREO'
     },
-    usuarioCreacion:{
-        column:'USUARIO_CREACION'
+    usuarioCreo:{
+        column:'USUARIO_CREO'
     },
 
     fechaModifico:{
@@ -58,7 +59,7 @@ alumno.columns ={
     },
 
     usuarioModifico:{
-        column:'USUARIO_Modifico'
+        column:'USUARIO_MODIFICO'
     }
 
 };

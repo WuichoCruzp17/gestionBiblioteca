@@ -19,7 +19,7 @@ editorialController.findById = async (req, res) => {
         if (object !== null) {
             res.status(200).json({ status: 200, object });
         } else {
-            res.status(500).json({ status: 500, object });
+            res.status(200).json({ status: 500, object });
         }
     } else {
         object = await editorial.findById(req);
@@ -67,7 +67,7 @@ editorialController.delete = async (req, res) => {
     if (row != null) {
         res.status(200).json({ status: 200, success: 'OK' });
     } else {
-        res.status(500).json({ status: 500, error: 'Error en el srvidor' });
+        res.status(200).json({ status: 500, error: 'Error en el srvidor' });
     }
 };
 

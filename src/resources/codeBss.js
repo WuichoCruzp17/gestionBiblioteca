@@ -10,7 +10,11 @@ const codes ={
     GRADO:5,
     GRUPO:6,
     MOBILIDAD:7,
-    TURNO:8
+    TURNO:8,
+    ESTATUS_PRESTAMO:9,
+    PRESTAMO:31,
+    DEVUELTO:21,
+    MESES:['Ene.','Fb.','Mar.','Abr.','May.','Jun.','Jul.','Ago.','Sep.','Oct.','Nov.','Dic.']
 };
 
 module.exports =codes;

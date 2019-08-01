@@ -51,6 +51,7 @@ app.use('/biblioteca/editorial', require('./routes/editorial'));
 app.use('/biblioteca/categoria', require('./routes/categoria'));
 app.use('/biblioteca/libro', require('./routes/libro'));
 app.use('/biblioteca/alumno', require('./routes/alumno'));
+app.use('/biblioteca/prestamos', require('./routes/prestamoLibro'));
 //Public
 app.use(express.static(path.join(__dirname, 'public')));
 //Startin server

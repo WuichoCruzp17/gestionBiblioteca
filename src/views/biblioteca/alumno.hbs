@@ -261,7 +261,7 @@
                     </form>
                 </div>
 
-                <div class="row">
+                <div class="row custom-scroll-containers" style="height: 800px;">
                     <demo-card :heroes="cardData" :columns="cardColumns" :filter-key="searchQuery">
                     </demo-card>
                 </div>
@@ -271,7 +271,7 @@
 </div>
 <script type="text/x-template" id="card-template">
 
-    <div class="container-fluid">
+    <div class="" >
         <div class="col-sm-4 col-sm-12" v-for="entry in filteredHeroes">
                     <div class="card card-default">
                         <div class="card-header">\{{entry['matricula']}}</div>

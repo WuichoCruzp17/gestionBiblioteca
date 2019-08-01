@@ -164,22 +164,29 @@ libroController.delete = async(req, res)=>{
     }
 };
 
-libroController.findCriteria = async(req, res)=>{
-
-    var {autorId, editorialId, nombre, orden, ordenarAscDesc} = req.body;
-    autorId =(autorId == null) ? 0:autorId;
-    editorialId =(editorialId == null) ? 0:editorialId;
-    nombre =(nombre == null) ? "":nombre;
-    orden =(orden == null) ? "":orden;
-    ordenarAscDesc =(ordenarAscDesc == null) ? "":ordenarAscDesc;
-    const rows = await libro.executeStored('getLibros',[autorId, editorialId,nombre,orden,ordenarAscDesc]);
-   
+libroController.findCriteria = async(req, res)=>{ 
+    if(typeof req =="undefined" || typeof res =="undefined"){
+        var body= {autorId:null, editorialId:null, nombre:null, orden:null, ordenarAscDesc:null};
+        return await findCriteria(body);
+    }else{
+        const rows = await findCriteria(req.body);
     if(Array.isArray([rows])){
         res.status(200).json({status:200, libros:rows[0]});
     }else{
         res.status(200).json({status:500, error:'Error en la obtención de los libros'});
     }
+    }
     
 };
+
+async function findCriteria(body){
+    var {autorId, editorialId, nombre, orden, ordenarAscDesc} = body;
+    autorId =(autorId == null) ? 0:autorId;
+    editorialId =(editorialId == null) ? 0:editorialId;
+    nombre =(nombre == null) ? "":nombre;
+    orden =(orden == null) ? "":orden;
+    ordenarAscDesc =(ordenarAscDesc == null) ? "":ordenarAscDesc;
+    return  await libro.executeStored('getLibros',[autorId, editorialId,nombre,orden,ordenarAscDesc]);
+}
 
 module.exports = libroController;

@@ -60,6 +60,7 @@ var modsJS = {
         jQuery("#filtro_turno").change(function(){
             alumnoJS.reloadAlumnos();
         });
+        
         alumnoJS.reloadAlumnos();
     },
     clenForm: function () {
@@ -115,7 +116,26 @@ var alumnoJS = {
                     modsJS.clenForm();
                     alumnoJS.reloadAlumnos();
                 }else{
-                    
+                    util.messageError('Error al guardar el alumno',result.error);
+                }
+            }
+        });
+    },
+
+    update:function(alumno){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/alumno/update",
+            data: alumno,
+            dataType: 'json'
+        }).done(function (result) {
+            if (result) {
+
+                if (result.status == 200) {
+                    modsJS.clenForm();
+                    alumnoJS.reloadAlumnos();
+                }else{
+                    util.messageError('Error al actualizar', result.error);
                 }
             }
         });
@@ -126,7 +146,7 @@ var alumnoJS = {
             if (isValidate.entity.alumnoId == "") {
                 alumnoJS.validateMatricula(isValidate.entity);
             } else {
-
+                alumnoJS.update(isValidate.entity);
             }
         }
     },
@@ -177,6 +197,39 @@ var alumnoJS = {
         });
     },
     prepateToRemove:function(alumnoId){
+        const alumno = utilCard.findCardObject(modsJS.card,'alumnoId',alumnoId);
+        swal({
+            title: "¿Estás seguro?",
+            text: "De eliminar el alumno: "+ alumno.nombre,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            alumnoJS.remove(alumnoId);
+            jQuery(".cancel").click();
+        });
+    },
+
+    remove:function(alumnoId){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/alumno/delete",
+            data: {alumnoId},
+            dataType: 'json'
+        }).done(function (result) {
+            if (result) {
+
+                if (result.status == 200) {
+                    alumnoJS.reloadAlumnos();
+                }else{
+                    util.messageError('Error al eliminar el alumno', result.error);
+                }
+            }
+        });
 
     }
 };

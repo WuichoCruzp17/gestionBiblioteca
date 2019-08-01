@@ -1,0 +1,154 @@
+<head>
+    <title>Prestamos</title>
+    <link rel="stylesheet" href="../css/select2.css">
+    <script src="../biblioteca/js/prestamosLibros.js"></script>
+    <script src="../js/jquery.select2.js"></script>
+</head>
+<div class="container">
+    <div class="page-header">
+        <h1 class="all-tittles">Sistema bibliotecario <small>Administración de Prestamos</small></h1>
+    </div>
+</div>
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a data-toggle="tab" href="#newPresatmo">Nuevos Libros</a>
+        </li>
+        <li>
+            <a data-toggle="tab" href="#prestamos">Libros</a>
+        </li>
+    </ul>
+</div>
+<div class="tab-content">
+    <div id="newPresatmo" class="tab-pane fade in active">
+        <form autocomplete="off" id="prestamoForm">
+            <div class="container-flat-form">
+                <div class="title-flat-form title-flat-blue">
+                    Nuevo Presatmo.
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 hidden">
+                        <div class="group-material">
+                            <input type="text" class="tooltips-general material-control" name="prestamoLibroId"
+                                v-model="prestamoLibroId" data-toggle="tooltip" data-placement="top" title
+                                data-original-title="Autor Id.">
+                            <span class="highlight"></span>
+                            <span class="bar"></span>
+                            <label>Prestamo Libro Id</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="libroId" data-name="Libro"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige el Libro">
+                                <option value="0" disabled="" selected="">Selecciona un Libro</option>
+                                {{#each libroList}}
+                                <option value="{{libroId}}">{{titulo}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="group-material">
+                            <select class="tooltips-general material-control" name="alumnoId" data-name="Alumno"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige el Alumno">
+                                <option value="0" disabled="" selected="">Selecciona un Alumno</option>
+                                {{#each alumnoList}}
+                                <option value="{{alumnoId}}">{{nombre}} {{apellidoPaterno}} {{apellidoMaterno}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+                <p class="text-center">
+                    <button type="reset" class="btn btn-info" style="margin-right: 20px;" id="btnClen"><i
+                            class="zmdi zmdi-roller"></i>
+                        &nbsp;&nbsp; Limpiar</button>
+                    <button type="button" class="btn btn-primary" id="btnSave"><i class="zmdi zmdi-floppy"></i>
+                        &nbsp;&nbsp; Guardar</button>
+                </p>
+            </div>
+        </form>
+    </div>
+    <div id="prestamos" class="tab-pane fade">
+        <div class="container-flat-form">
+            <div class="title-flat-form title-flat-blue">
+                Libros.
+            </div>
+
+            <div id="card">
+                <div class="container-fluid">
+                    <form id="search" style="margin-bottom:5px">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="group-material">
+                                    <input type="text" class="tooltips-general material-control" name="tituloLibro"
+                                        v-model="searchQuery" data-toggle="tooltip" data-placement="top"
+                                        data-name="Titulo del libro" id="filtro_titulo">
+                                    <span class="highlight"></span>
+                                    <span class="bar"></span>
+                                    <label>Filtro personalizado</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="group-material">
+                                    <input type="date" class="tooltips-general material-control" name="fechaInicial"
+                                        data-toggle="tooltip" data-placement="top"
+                                        data-name="Titulo del libro" id="filtro_fechaInicio">
+                                    <label>Fecha Inicio</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="group-material">
+                                    <input type="date" class="tooltips-general material-control" name="fechaFinal"
+                                        data-toggle="tooltip" data-placement="top"
+                                        data-name="Titulo del libro" id="filtro_fechaFinal">
+                                    <label>Fecha Final</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="group-material">
+                                    <select class="tooltips-general material-control" name="turnoId" data-name="turno"
+                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
+                                required data-original-title="Elige el Turno" id="filtro_turnoId">
+                                <option value="0" disabled="" selected="">Selecciona un Turno</option>
+                                {{#each estatusPrestamoList}}
+                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                {{/each}}
+                            </select>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+                <div class="row custom-scroll-containers" style="height: 800px;">
+                    <demo-card :heroes="cardData" :columns="cardColumns" :filter-key="searchQuery">
+                    </demo-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/x-template" id="card-template">
+
+    <div class="">
+        <div class="col-sm-4 col-sm-12" v-for="entry in filteredHeroes">
+                    <div class="card card-default">
+                        <div class="card-header">\{{entry['titulo']}}</div>
+
+                        <div class="card-body">
+                            <h4>Alumno: \{{entry['alumno']}}</h4>
+                            <h4>Fecha de Prestamo: \{{entry['fechaPrestamo']}}</h4>
+                            <p>Fecha de Devolucion:  \{{entry['fechaDevolucion']}}</p>
+                            <p>Estatus: \{{entry['estatusPrestamo']}}</p>
+                            <p>Prestado por: \{{entry['usuario']}}</p>
+                            <p><button class="btn btn-primary btn-block" v-on:click='findById(entry["prestamoLibroId"])'>Editar</button></p>
+                            <p><button class="btn btn-danger btn-block"  v-on:click='prepateToRemove(entry["prestamoLibroId"])'>Eliminar</button></p>
+                        </div>
+                    </div>
+
+                </div>
+          
+        </script>

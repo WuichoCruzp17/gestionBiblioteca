@@ -142,6 +142,18 @@ var util = {
 
       jQuery(".cancel").click();
   });
+  },
+  getDaysMonth:function(mes,ayo){
+    return new Date(ayo, mes, 0).getDate();
+  },
+
+  formatDateInput:function(d,s){
+    //año-mes-dia
+    var m = d.getMonth()+1;
+    var da = d.getDate();
+    m = (m>=10) ? m : "0"+m;
+    da = (da>=10) ? da:"0"+da;
+    return (d.getFullYear()+s+m+s+da);
   }
 
 
@@ -228,7 +240,15 @@ var utilGrid = {
     });
 
     return demo;
-  }
+  },
+  findGridObject:function(card,property,value){
+    const rows = card._data.cardData;
+    for(var i=0;i<rows.length;i++){
+        if(rows[i][property] ==value){
+            return rows[i];
+        }
+    }
+ }
 };
 
 

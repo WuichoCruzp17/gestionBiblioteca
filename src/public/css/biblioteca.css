@@ -72,3 +72,17 @@
       th.active .arrow {
         opacity: 1;
       }
+
+      .header-yellow {
+        background-color:yellow!important;
+      }
+
+      .header-green{
+        color: #fff!important;
+        background-color: #5cb85c!important;
+        border-color: #4cae4c!important;
+      }
+
+      .header-green, .header-yellow {
+        font-weight: bold;
+      }

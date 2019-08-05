@@ -15,6 +15,10 @@ loginController.getUser = async(login)=>{
             console.log("Admministrador");
             rows = await administrador.findByProperty('correo',login.username);
         break;
+        case 2:
+            console.log("Admministrador");
+            rows = await administrador.findByProperty('correo',login.username);
+        break;
     }
     return rows;
 };

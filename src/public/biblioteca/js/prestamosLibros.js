@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 var modsJS ={
     ini:function(){
-        utilCard.methods.findById = prestamoLibroJS.findById;
         utilCard.methods.prepateToRemove = prestamoLibroJS.prepateToRemove;
+        utilCard.methods.prepateToEndLoad = prestamoLibroJS.prepateToEndLoad;
         modsJS.card = utilCard.createCard({
             script: '#card-template',
             element: '#card',
@@ -38,12 +38,26 @@ var modsJS ={
         jQuery("#btnClen").on('click',function(){
             modsJS.clenFrom();
         });
+        jQuery("#filtro_fechaInicio").on('change',function(){
+           modsJS.eventChangeInputDate(this);
+        });
+        jQuery("#filtro_fechaFinal").on('change',function(){
+            modsJS.eventChangeInputDate(this);
+        });
+        jQuery("#filtro_turnoId").on("change",function(){
+            prestamoLibroJS.resoloadPrestamos();
+        });
+        jQuery("#filtro_estatus").on("change",function(){
+            prestamoLibroJS.resoloadPrestamos();
+        });
         var d   = new Date();
         d.setDate(1);
+        d.setMonth(d.getMonth()-1);
+        console.log(d.getMonth());
         jQuery("#filtro_fechaInicio").val(util.formatDateInput(d,'-'));
-         
-         d.setMonth(d.getMonth()+1);
-         d.setDate( util.getDaysMonth(d.getMonth(),d.getFullYear()));
+        d = new Date();
+        // d.setMonth(d.getMonth());
+         //d.setDate( util.getDaysMonth(d.getMonth(),d.getFullYear()));
         jQuery("#filtro_fechaFinal").val(util.formatDateInput(d,'-'));
 
         prestamoLibroJS.resoloadPrestamos();
@@ -52,6 +66,21 @@ var modsJS ={
         jQuery("#prestamoForm_libroId").val(0).change();
         jQuery("#prestamoForm_alumnoId").val(0).change();
         jQuery("prestamoForm_prestamoLibroId").val("");
+    },
+
+    isValdateDate:function(f){
+        const d = new Date();
+        return d>=f;
+    },
+
+    eventChangeInputDate:function(obj){
+        const f = obj.value;
+        if(!modsJS.isValdateDate( new Date(f.split("-")[0],(f.split("-")[1]-1),f.split("-")[2]))){
+            util.messageError('Error en el filtro', 'No se permite seleccionar una fecha que no haya pasado')
+            obj.value ="";
+        }else{
+            prestamoLibroJS.resoloadPrestamos();
+        }
     }
 };
 
@@ -59,8 +88,23 @@ var modsJS ={
 var prestamoLibroJS ={
     cache:{},
 
-    findById:function(){
-
+    findById:function(prestamoLibroId){
+        $.ajax({
+            method: "GET",
+            url: "/biblioteca/prestamos/"+prestamoLibroId,
+            dataType: 'json'
+        }).done(function (result) {
+            console.log(result);
+            if(result.status ==200){      
+        jQuery("#prestamoForm_prestamoLibroId").val(result.prestamoLibro.prestamoLibroId).change();
+        jQuery("#prestamoForm_libroId").val(result.prestamoLibro.libroId).change();
+        jQuery("#prestamoForm_alumnoId").val(result.prestamoLibro.alumnoId).change();
+        const  nav=jQuery(".nav-tabs li a")[0];
+        nav.click();
+        }else{
+            util.messageError('Error', result.error);
+        } 
+        });
     },
     prepareToSave:function(){
         const isValidate = util.validateForm("prestamoForm");
@@ -82,10 +126,12 @@ var prestamoLibroJS ={
         }).done(function (result) {
             if(result.status ==200){
                 if(result.isValidate){
-                 
-                        prestamoLibroJS.save(prestamoLibro);
-                    
-                    
+                 if(prestamoLibro.prestamoLibroId != ""){
+                   
+                 }else{
+                    prestamoLibroJS.save(prestamoLibro);
+                 }
+
                 }else if(result.status ==501){
                     util.messageError('El presatmo no se puede realizar por: ',result.error);
                 }else{
@@ -105,18 +151,23 @@ var prestamoLibroJS ={
             dataType: 'json'
         }).done(function (result) {
             if(result.status ==200){
-                    alert("Guardado");
-            
+                    modsJS.clenFrom();
+            prestamoLibroJS.resoloadPrestamos();
         }else{
             util.messageError('Error', result.error);
         } 
         });
     },
 
+    update:function(prestamoLibro){
+       
+        ///Un prestamo no se puede actualizar
+    },
     resoloadPrestamos:function(){
         prestamoLibroJS.cache.fechaInicial = jQuery("#filtro_fechaInicio").val();
-        prestamoLibroJS.cache.fechaInicial = jQuery("#filtro_fechaFinal").val();
+        prestamoLibroJS.cache.fechaFinal = jQuery("#filtro_fechaFinal").val();
         prestamoLibroJS.cache.turno = jQuery("#filtro_turnoId").val();
+        prestamoLibroJS.cache.estatus = jQuery("#filtro_estatus").val();
         prestamoLibroJS.findByCriteria();
     },
 
@@ -124,7 +175,7 @@ var prestamoLibroJS ={
         $.ajax({
             method: "POST",
             url: "/biblioteca/prestamos/findByCriteria",
-            data: prestamoLibroJS.change,
+            data: prestamoLibroJS.cache,
             dataType: 'json'
         }).done(function (result) {
             if(result.status ==200){
@@ -134,7 +185,70 @@ var prestamoLibroJS ={
         });
     },
 
-    prepateToRemove:function(){
+    prepateToRemove:function(prestamoLibroId){
+        const prestamoLibro = utilCard.findCardObject(modsJS.card,'prestamoLibroId',prestamoLibroId,);
+        modsJS.prestamoLibro  = prestamoLibro;
+        swal({
+            title: "¿Estás seguro?",
+            text: "Desea eliminar el prestamo del libro: "+ prestamoLibro.titulo,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            prestamoLibroJS.delete(prestamoLibroId);
+            jQuery(".cancel").click();
+        });
+    },
+
+    delete:function(prestamoLibroId){
+        $.ajax({
+            method: "DELETE",
+            url: "/biblioteca/prestamos/"+prestamoLibroId,
+            dataType: 'json'
+        }).done(function (result) {
+            if(result.status ==200){
+            prestamoLibroJS.resoloadPrestamos();
+        }else{
+            util.messageError('Error', result.error);
+        } 
+        });
+    },
+
+    prepateToEndLoad:function(prestamoLibroId){
+        const prestamoLibro = utilCard.findCardObject(modsJS.card,'prestamoLibroId',prestamoLibroId,);
+        modsJS.prestamoLibro  = prestamoLibro;
+        swal({
+            title: "Confirmación",
+            text: "¿Desea  finalizar el prestamo del libro: "+ prestamoLibro.titulo +"?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#5cb85c",
+            confirmButtonText: "Si, eliminar",
+            cancelButtonText: "No, cancelar",
+            animation: "slide-from-top",
+            closeOnConfirm: false 
+        },function(){   
+            prestamoLibroJS.update(prestamoLibroId);
+            jQuery(".cancel").click();
+        });
         
+    },
+    update:function(prestamoLibroId){
+        $.ajax({
+            method: "POST",
+            url: "/biblioteca/prestamos/update",
+            data:{prestamoLibroId},
+            dataType: 'json'
+        }).done(function (result) {
+            if(result.status ==200){
+            prestamoLibroJS.resoloadPrestamos();
+        }else{
+            util.messageError('Error', result.error);
+        } 
+        });
     }
 };

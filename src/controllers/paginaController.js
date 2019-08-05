@@ -41,7 +41,7 @@ paginaController.buildMenuHtml = async(paginas)=>{
     for(var i=0; i<paginas.length;i++){
         if(paginas[i].seccion ==MENU_RAIZ){
             console.log("Entro a la seccion de Menu Raiz: ", paginas[i].nombre);
-            menu[paginas[i].nombre] =[{nombre:paginas[i].nombre, url:paginas[i].url}];
+            menu[paginas[i].nombre] =[{nombre:paginas[i].nombre, url:paginas[i].url, seccion:paginas[i].seccion}];
         }else{
             if(tempMenu ===0){
                 tempMenu = paginas[i].seccion;
@@ -101,7 +101,7 @@ paginaController.buildMenuHtml = async(paginas)=>{
                     html +=`<li>
                     <a href="${a[i].url}">
                     <i class="${((a[i].icon === null) ? 'zmdi zmdi-home zmdi-hc-fw':a[i].icon)}"> </i>
-                    &nbsp;&nbsp; ${a[i].nombreMenu}
+                    &nbsp;&nbsp; ${a[i].nombre}
                 </a>
                 </i>
                     `;

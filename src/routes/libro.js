@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const libroController = require('../controllers/libroController');
-
-router.get('/', libroController.index);
-router.get('/:id',libroController.findById);
-router.post('/save',libroController.save);
-router.post('/update', libroController.update);
-router.post('/delete', libroController.delete);
-router.post('/findCriteria',libroController.findCriteria);
+const {isLoggedIn,isNotLoogedin,validateAccesousUsuario} = require('../lib/auth');
+router.get('/', isLoggedIn,validateAccesousUsuario,libroController.index);
+router.get('/:id',isLoggedIn,libroController.findById);
+router.post('/save',isLoggedIn,libroController.save);
+router.post('/update',isLoggedIn, libroController.update);
+router.post('/delete', isLoggedIn,libroController.delete);
+router.post('/findCriteria',isLoggedIn,libroController.findCriteria);
 module.exports = router;

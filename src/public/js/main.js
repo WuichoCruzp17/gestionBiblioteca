@@ -14,7 +14,7 @@ $(document).ready(function(){
     });
     $('.exit-system-button').on('click', function(e){
         e.preventDefault();
-        var LinkExitSystem=$(this).attr("data-href");
+        var LinkExitSystem="/logout";
         swal({
             title: "¿Estás seguro?",
             text: "Quieres salir del sistema y cerrar la sesión actual",

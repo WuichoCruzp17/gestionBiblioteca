@@ -13,7 +13,7 @@ const codes ={
     TURNO:8,
     ESTATUS_PRESTAMO:9,
     PRESTAMO:31,
-    DEVUELTO:21,
+    DEVUELTO:32,
     MESES:['Ene.','Fb.','Mar.','Abr.','May.','Jun.','Jul.','Ago.','Sep.','Oct.','Nov.','Dic.']
 };
 

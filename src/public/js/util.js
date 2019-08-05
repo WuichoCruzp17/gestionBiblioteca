@@ -339,6 +339,79 @@ var utilCard = {
  }
 };
 
+
+
+////////////////////777
+
+var utilArticle = {
+  propsDefault: {
+    heroes: Array,
+    columns: Array
+  },
+  dataDefault: function () {
+    var sortOrders = {}
+    this.columns.forEach(function (key) {
+      sortOrders[key] = 1
+    })
+    return {
+      sortKey: '',
+      sortOrders: sortOrders
+    }
+  },
+  computed: {
+  filteredHeroes: function () {
+    var heroes = this.heroes;
+    
+    return heroes
+  }
+},
+  filters: {
+    capitalize: function (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    }
+  },
+  methods: {
+    sortBy: function (key) {
+      this.sortKey = key
+      this.sortOrders[key] = this.sortOrders[key] * -1
+    },
+  },
+  component: {
+    setOrder: function () {
+      var sortOrders = {}
+      this.columns.forEach(function (key) {
+        if (key !== "") {
+          sortOrders[key] = 1
+        }
+      })
+      return {
+        sortKey: '',
+        sortOrders: sortOrders
+      }
+    }
+  },
+  createArticle: function (object) {
+    Vue.component('demo-article', object.component);
+    var demo = new Vue({
+      el: object.element,
+      data: {
+        articleColumns: object.columns,
+        articleData: object.data
+      }
+    });
+
+    return demo;
+  },
+  findArticlebject:function(article,property,value){
+    const rows = article._data.articleData;
+    for(var i=0;i<rows.length;i++){
+        if(rows[i][property] ==value){
+            return rows[i];
+        }
+    }
+ }
+};
+
 var utilString = {
   validateString: function (obj) {
     return Object.prototype.toString.call(obj) === '[object String]';

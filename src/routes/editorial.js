@@ -1,10 +1,11 @@
 const express =    require('express');
 const router = express.Router();
 const editorialController = require('../controllers/editorialController');
-router.get('/', editorialController.index);
-router.post('/save', editorialController.save);
-router.post('/update', editorialController.update);
-router.post('/delete', editorialController.delete);
-router.get('/findAll', editorialController.findAll);
-router.get('/:id', editorialController.findById);
+const {isLoggedIn,isNotLoogedin,validateAccesousUsuario} = require('../lib/auth');
+router.get('/',isLoggedIn, validateAccesousUsuario,editorialController.index);
+router.post('/save', isLoggedIn, validateAccesousUsuario,editorialController.save);
+router.post('/update',isLoggedIn, validateAccesousUsuario, editorialController.update);
+router.post('/delete', isLoggedIn, validateAccesousUsuario,editorialController.delete);
+router.get('/findAll',isLoggedIn, validateAccesousUsuario, editorialController.findAll);
+router.get('/:id',isLoggedIn, validateAccesousUsuario, editorialController.findById);
 module.exports = router;

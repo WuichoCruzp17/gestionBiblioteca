@@ -16,11 +16,13 @@ passport.use('local.signin',new LocalStrategy({
     };
     var rows = null;
     rows = await loginController.getUser(login);
+    console.log(rows);
     if(Array.isArray(rows)){
         if(rows.length>0){
             const user = rows[0];
             const validPassword = await helpers.matchPassword(password, user.contrasena);
             if(validPassword){
+                console.log("Valido passord");
                 done(null, user, req.flash('success','Welcome '+ user.nombre));
             }else{
                 done(null, false, req.flash('message', 'Incorrect Password'));
@@ -58,6 +60,12 @@ passport.serializeUser(async (user, done) => {
      console.log("Usuario Serelize User: ", user);
      switch(user.perfilId){
          case 1:
+            var paginas = await paginaController.menu(user.perfilId);
+            user.paginas = paginas[0];
+            user.menuHtml = await paginaController.buildMenuHtml(user.paginas);
+         done(null, user);
+         break;
+         case 2:
             var paginas = await paginaController.menu(user.perfilId);
             user.paginas = paginas[0];
             user.menuHtml = await paginaController.buildMenuHtml(user.paginas);

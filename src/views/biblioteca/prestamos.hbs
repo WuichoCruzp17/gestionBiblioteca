@@ -97,29 +97,43 @@
                             <div class="col-sm-2">
                                 <div class="group-material">
                                     <input type="date" class="tooltips-general material-control" name="fechaInicial"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-name="Titulo del libro" id="filtro_fechaInicio">
+                                        data-toggle="tooltip" data-placement="top" data-name="Titulo del libro"
+                                        id="filtro_fechaInicio">
                                     <label>Fecha Inicio</label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="group-material">
                                     <input type="date" class="tooltips-general material-control" name="fechaFinal"
-                                        data-toggle="tooltip" data-placement="top"
-                                        data-name="Titulo del libro" id="filtro_fechaFinal">
+                                        data-toggle="tooltip" data-placement="top" data-name="Titulo del libro"
+                                        id="filtro_fechaFinal">
                                     <label>Fecha Final</label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="group-material">
                                     <select class="tooltips-general material-control" name="turnoId" data-name="turno"
-                                data-toggle="tooltip" data-placement="top" data-toggle="tooltip" data-placement="top"
-                                required data-original-title="Elige el Turno" id="filtro_turnoId">
-                                <option value="0" disabled="" selected="">Selecciona un Turno</option>
-                                {{#each estatusPrestamoList}}
-                                <option value="{{catalagoParametroId}}">{{nombre}}</option>
-                                {{/each}}
-                            </select>
+                                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip"
+                                        data-placement="top" required data-original-title="Elige el Turno"
+                                        id="filtro_turnoId">
+                                        <option value="0" selected="">Selecciona un Turno</option>
+                                        {{#each turnoList}}
+                                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="group-material">
+                                    <select class="tooltips-general material-control" name="estatus" data-name="estatus"
+                                        data-toggle="tooltip" data-placement="top" data-toggle="tooltip"
+                                        data-placement="top" required data-original-title="Elige el estatus"
+                                        id="filtro_estatus">
+                                        <option value="0" selected="">Selecciona un Estatus</option>
+                                        {{#each estatusPrestamoList}}
+                                        <option value="{{catalagoParametroId}}">{{nombre}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                     </form>
@@ -134,17 +148,25 @@
     <script type="text/x-template" id="card-template">
 
     <div class="">
-        <div class="col-sm-4 col-sm-12" v-for="entry in filteredHeroes">
+        <div class="col-md-4 col-sm-6 col-sm-10" v-for="entry in filteredHeroes">
                     <div class="card card-default">
-                        <div class="card-header">\{{entry['titulo']}}</div>
-
+                         <template v-if="entry['estatusPrestamo'] !=='Prestamo'">
+                        <div class="card-header header-green">\{{entry['titulo']}}</div>
+                          </template>
+                     <template v-else>  
+                      <div class="card-header header-yellow">\{{entry['titulo']}}</div> 
+                      </template>
+                          
                         <div class="card-body">
                             <h4>Alumno: \{{entry['alumno']}}</h4>
                             <h4>Fecha de Prestamo: \{{entry['fechaPrestamo']}}</h4>
                             <p>Fecha de Devolucion:  \{{entry['fechaDevolucion']}}</p>
                             <p>Estatus: \{{entry['estatusPrestamo']}}</p>
                             <p>Prestado por: \{{entry['usuario']}}</p>
-                            <p><button class="btn btn-primary btn-block" v-on:click='findById(entry["prestamoLibroId"])'>Editar</button></p>
+                            <template  v-if="entry['estatusPrestamo'] =='Prestamo'">
+                            <p><button class="btn btn-success btn-block"  v-on:click='prepateToEndLoad(entry["prestamoLibroId"])'>FInalizar Prestamo</button></p>
+                            </template>
+                            
                             <p><button class="btn btn-danger btn-block"  v-on:click='prepateToRemove(entry["prestamoLibroId"])'>Eliminar</button></p>
                         </div>
                     </div>
